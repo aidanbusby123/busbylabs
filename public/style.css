@@ -13,16 +13,16 @@
     color:black;
     border-style:double;
 }
-.highvoltage{
+.highvoltage-menu{
     display:inline-block;
     position:relative;
 }
-.highvoltage-content{
+.highvoltage-content-menu{
     display:none;
     position:absolute;
     width:200px;
 }
-.highvoltage:hover .highvoltage-content{
+.highvoltage-men:hover .highvoltage-content-menu{
     display:block;
 }
 .dropdown{
@@ -35,4 +35,8 @@
 .project{
     border-style:ridge;
     width:50%;
+}
+
+.thumbnail img{
+    float:left;
 }
