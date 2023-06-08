@@ -1,0 +1,38 @@
+.menu{
+    width:100%;
+}
+.menu ul{
+    list-style-type:none;
+    list-style:none;
+    padding:0;
+    margin:0;
+}
+.menu a{
+    font-size:small;
+    text-decoration:none;
+    color:black;
+    border-style:double;
+}
+.highvoltage{
+    display:inline-block;
+    position:relative;
+}
+.highvoltage-content{
+    display:none;
+    position:absolute;
+    width:200px;
+}
+.highvoltage:hover .highvoltage-content{
+    display:block;
+}
+.dropdown{
+    background:none;
+    font-size:small;
+    color:black;
+    border-style:double;
+    border-color:black;
+}
+.project{
+    border-style:ridge;
+    width:50%;
+}
