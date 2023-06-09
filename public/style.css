@@ -35,8 +35,8 @@
 .project{
     border-style:ridge;
     width:25%;
-    height:auto;
     min-height:250px;
+    padding:10px;
 }
 
 img.thumbnail{
