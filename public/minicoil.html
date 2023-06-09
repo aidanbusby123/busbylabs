@@ -11,13 +11,30 @@
         <p>As an introduction to the world of high voltage engineering, I decided to dive head first into the subject by building a miniature spark-gap tesla coil. It has a 13.875cm long secondary coil, 1.67cm in diameter,
         with about 450 turns. The primary has around 7 3/4 turns of 14 guage house wire, ~6.75 cm in diameter. The secondary tank circuit has a measured resonance frequency of 1.13 MHz, with an old lightbulb covered
         in aluminum tape acting as a capacitor. The primary uses a CRT flyback that I got off ebay as a power supply, and 2 1nf capacitors in series for a primary tank capacitance of 2nf. This endeavor has taken me
-        a lot (insert emphasis here) of time, a lot more than it should have. This is partially due to my horrible planning skills, as well as a procrastinating nature and  occasional lack of motivation. It should also
+        a lot (insert emphasis here) of time, a lot more than it should have. This is partially due to my horrible planning skills, as well as a procrastinating nature and occasional lack of motivation. It should also
         be noted that this project was, again, a learning experience, and so I did end up making a lot of modifications and complete reworks several times. However, after nearly five months of sluggish progress, I think
         I am in a place where I can confidently say that the project is finished.</p>
         <h2>Theory of Operation</h2>
         <p>A tesla coil is essentially a high voltage transformer whose secondary and primary tank circuits have the same resonance frequency. A tank (or LC) circuit is simply an electrical oscillator that uses a capacitor
         and an inductor to generate sinusoidinal electrical signals. In a tesla coil, both the primary and secondary are a part of their own, seperate tank circuits. However, in a tesla coil, the frequency of these 
-        oscillations (the resonance frequency), is equivalent (ideally). This is done by choosing appropriate tank capacitor values in both circuits.
+        oscillations (the resonance frequency), is equivalent (ideally). This is done by choosing appropriate tank capacitor values in both circuits. When the primary and secondary have the same resonance frequency,
+        they will resonate with another. This allows for the most efficient setup possible, with no energy losses due to differing phases. All Tesla coils require high voltage power supplies for their primary circuits,
+        as the secondary to primary turn ratio only steps up the voltage so much. In this coil, a CRT flyback was used, with an output of around 5Kv at a max current of around 10ma.
+        <h2>Design</h2>
+        <h4>Secondary Coil</h4>
+        <p>The secondary coil is constructed from a 1.67cm radius PVC pipe with 13.875cm of windings of 28AWG wire for a grand total of ~475 windings. In series with the top-load, which is an old lightbulb covered in aluminum
+          tape in my case, acts as the secondary tank capacitor. By looking hooking up an oscilloscope to the secondary circuit and supplying a waveform of a certain frequency, by changing said frequency I was able to identify
+          what the resonance frequency was by visually identifying which frequency gave the sine waves with the largest amplitude on the oscilloscope.
+        </p>
+        <h4>Primary Coil</h4>
+        <p>
+          I actually ended up making several primaries throughout this project (trial and error, right?), so I have chosen to document the version that I used with the final product.
+          The primary is made out of 14awg insulated house electrical wire wound around a 6.75cm diameter PVC pipe. In order to get the Primary to resonate with the secondary, we need to figure out the inductance of the primary.
+          To do this, I used an online calculator, which is a lot easier than doing the calculations by hand. From there, by using the equation for the frequency of an LC circuit, which states that f = 1/2pi*sqrt(LC), it is just
+          a matter of using simple algebra to find C, the capacitance of the primary tank capacitor. For my primary, this was 2.2nF. I ended up just soldering two 1nF 30kV ceramic capacitors in series, which isn't super precise,
+          but thanks to my adjustable grounding connecter, small adjustments of the primary coil can adjust for this.
+        </p>
+        
 
     </main>
     <footer></footer>
