@@ -1,3 +1,12 @@
+body{
+    background-color:black;
+}
+h1, h2, h3, h4, h5, p, a{
+    color:white;
+}
+.title{
+    color: lightseagreen;
+}
 .menu{
     width:100%;
 }
@@ -7,11 +16,11 @@
     padding:0;
     margin:0;
 }
-.menu a{
-    font-size:small;
+.menu a, .menu p{
     text-decoration:none;
-    color:black;
     border-style:double;
+    margin:0px;
+    padding:2px;
 }
 .highvoltage-menu{
     display:inline-block;
@@ -21,20 +30,20 @@
     display:none;
     position:absolute;
     width:200px;
+    margin:0px;
 }
 .highvoltage-menu:hover .highvoltage-content-menu{
     display:block;
 }
 .dropdown{
     background:none;
-    font-size:small;
-    color:black;
     border-style:double;
-    border-color:black;
+    border-color:white;
+    margin:0px;
 }
 .project{
     border-style:ridge;
-    width:25%;
+    width:20%;
     min-height:250px;
     padding:10px;
 }

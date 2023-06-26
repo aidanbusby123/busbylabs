@@ -1,0 +1,18 @@
+ 
+<urlset xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+<url>
+<loc>https://busbylabs.com/</loc>
+<lastmod>2023-06-09T02:11:20+00:00</lastmod>
+<priority>1.00</priority>
+</url>
+<url>
+<loc>https://busbylabs.com/about</loc>
+<lastmod>2023-06-09T02:11:20+00:00</lastmod>
+<priority>0.80</priority>
+</url>
+<url>
+<loc>https://busbylabs.com/minicoil</loc>
+<lastmod>2023-06-09T02:11:20+00:00</lastmod>
+<priority>0.80</priority>
+</url>
+</urlset>
