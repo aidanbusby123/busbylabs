@@ -1,0 +1,40 @@
+<h2>Introduction</h2>
+<p>This project uses an infrared distance module, a stepper motor, a stepper
+    motor linear slide, and an arduino nano to get detailed 3D scans of an object. 
+    The stepper motor is used to turn a rotating disk upon which the target object sits,
+    while a stepper motor linear actuator slides the IR sensor along the vertical
+    axis, getting the distance from the sensor of each point on the object. The entire
+    aparatus is driven with an Arduino Nano and an A4988 stepper motor driver.
+</p>
+<h2>Components</h2>
+<ul>
+    <li>Arduino Nano</li>
+    <li>A4988 driver</li>
+    <li>SHARP GP2Y0A41SK0F</li>
+    <li>28BYJ-48 stepper motor</li>
+    <li>28BYJ-48 stepper motor driver</li>
+    <li>12V 2 phase stepper motor linear rail</li>
+    <li>Protoboard/breadboard</li>
+</ul>
+<h2>Operation</h2>
+<img alt = "circuit diagram">
+<p>The brains of the operation is an Arduino Nano. It is perfect for our purposes
+    due to its small size and low cost. 
+    <br>
+    Pins 2-5 are connected to the IN4, IN3, IN2 and IN1 pins on the 28BYJ-48 driver board,
+    respectively. Pins 6 and 7 are connected to the STEP and DIR (step and direction)
+    pins of the A4988 driver, which is used to control the linear actuator. Finally,
+    the A0 pin is hooked up to the output of the SHARP GP2Y0A21SK0F.
+    <br>
+    <br>
+    <p>The SHARP GP2Y0A21SK0F is instrumental to the operation of the scanner. It uses
+        the relative luminosity of the IR light reflected off an object to determine its
+        distance. We may exploit this in order to get a set of vertices that 
+        correspond to the object we are scanning.
+    </p>
+    <br>
+    <p>The A4988 is neccessary to drive the linear actuator. There is no standard
+        driver for the actuator that I ended up using, so I had to use a universal
+        one (the A4988), although this does mean some snipping and soldering.
+    </p>
+</p>
