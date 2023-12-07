@@ -15,7 +15,7 @@
             <td>%2$s</td></tr>
             <br>', 
             basename($file), // or basename($file) for just the filename w\out path
-            date('F d Y, H:i:s', filemtime($file)));
+            date('F d Y', filemtime($file)));
 }
 
 
