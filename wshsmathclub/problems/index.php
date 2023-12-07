@@ -9,8 +9,14 @@
     <main>
     <?php
     $files = glob('problems/probs/*.pdf');
-    echo('test');
-    usort($files, create_function('$a,$b', 'return filemtime($b)-filemtime($a);'));
+    foreach($files as $file){
+    printf('<tr><td><input type="checkbox" name="box[]"></td>
+            <td><a href="%1$s" target="_blank">%1$s</a></td>
+            <td>%2$s</td></tr>', 
+            $file, // or basename($file) for just the filename w\out path
+            date('F d Y, H:i:s', filemtime($file)));
+}
+
 
     ?>
     </main>
