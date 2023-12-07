@@ -42,10 +42,10 @@
                     }
             }
             printf('
-            <a href="%1$s">%1$s</a>
+            <a href="%$s">%$s</a>
             <br>
             ',
-            $latest_filename);
+            $latest_filename, basename($latest_filename));
             ?>
 
     </body>
