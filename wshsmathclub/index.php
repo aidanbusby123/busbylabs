@@ -26,9 +26,23 @@
             <a href="problems">Problem Sets</a>
         </div>
         <br>
-        <?php
-        $files = scandir('problems/probs', SCANDIR_SORT_DESCENDING);
-        $newest_file = $files[0];
-        ?>
+            <?php
+            $path = "problems/probs/*";
+
+            $latest_ctime = 0;
+            $latest_filename = '';
+
+            $files = glob($path);
+            foreach($files as $file)
+            {
+                    if (is_file($file) && filectime($file) > $latest_ctime)
+                    {
+                            $latest_ctime = filectime($file);
+                            $latest_filename = $file;
+                    }
+            }
+            return $latest_filename;
+            ?>
+
     </body>
 </html>
