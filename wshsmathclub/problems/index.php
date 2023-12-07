@@ -8,7 +8,7 @@
     <header></header>
     <main>
     <?php
-    $files = glob('problems/probs/*.pdf');
+    $files = glob('/wshsmathclub/problems/probs/*.pdf');
     foreach($files as $file){
     printf('<tr><td><input type="checkbox" name="box[]"></td>
             <td><a href="%1$s" target="_blank">%1$s</a></td>
