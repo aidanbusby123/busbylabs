@@ -27,7 +27,7 @@
         </div>
         <br>
         <?php
-        $files = scandir('data', SCANDIR_SORT_DESCENDING);
+        $files = scandir('problems/probs', SCANDIR_SORT_DESCENDING);
         $newest_file = $files[0];
         ?>
     </body>
