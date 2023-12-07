@@ -46,7 +46,7 @@
             <br>
             <a href="%1$s">Download (%2$s)</a>
             <br>
-            <div style="height:80vh;">
+            <div style="height:60vh;">
             <iframe src="%1$s" width="80%%" height="100%%">
             </div>
             ',
