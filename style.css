@@ -1,0 +1,107 @@
+p{
+    margin:10px;
+    padding:2px;
+    font-size:14px;
+    line-height:1.5;
+}
+
+main{
+    width:50%;
+    margin:auto;
+}
+
+div.image{
+    width:fit-content;
+    font-size:12px;
+}
+div.gallery{
+    width:fit-content;
+    margin:auto;
+    max-height:600px;
+}
+img.gallery{
+    max-height:600px;
+}
+img.image{
+    max-width:200px;
+    margin-right:auto;
+    margin-left:auto;
+}
+
+.clearfix{
+    clear:both;
+}
+
+body{
+    background-color:white;
+}
+h1{
+    text-align:center;
+    font-family:courier;
+}
+h2, h3, h4, h5{
+    font-family:courier;
+}
+h1, h2, h3, h4, h5, p, a{
+    color:black;
+}
+.menu{
+    width:fit-content;
+    margin:auto;
+}
+.menu ul{
+    list-style-type:none;
+    list-style:none;
+    padding:0;
+    margin:0;
+}
+.menu a{
+    display:inline-block;
+    text-decoration:none;
+    border-style:solid;
+    vertical-align:middle;
+    border-width:1px;
+    border-radius:5px;
+    font-size:15;
+    margin:0px;
+    padding:5px;
+}
+.drop-menu{
+    display:inline-block;
+    position:relative;
+}
+.drop-content-menu{
+    display:none;
+    position:absolute;
+    width:200px;
+    margin:0px;
+}
+.drop-menu:hover .drop-content-menu{
+    display:block;
+}
+.dropdown{
+    background:none;
+    border-style:solid;
+    border-color:black;
+    border-width:1px;
+    border-radius:5px;
+    font-size:15;
+    padding:5px;
+    margin:0px;
+}
+.project{
+    display:inline-block;
+    vertical-align: top;
+    border-style:ridge;
+    width:20%;
+    min-height:250px;
+    min-width:200px;
+    padding:10px;
+}
+
+img.thumbnail{
+    float:left;
+    margin:5px;
+    max-width:100px;
+    max-height:250px;
+}

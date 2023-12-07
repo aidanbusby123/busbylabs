@@ -1,0 +1,34 @@
+p{
+    margin:10px;
+    font-size:14px;
+    line-height:1.5;
+}
+
+main{
+    width:50%;
+    margin:auto;
+}
+
+div.image{
+    width:fit-content;
+    font-size:12px;
+}
+div.gallery{
+    width:fit-content;
+    margin:auto;
+    max-height:600px;
+}
+img.gallery{
+    max-height:600px;
+}
+img.image{
+    max-width:200px;
+    margin-right:auto;
+    margin-left:auto;
+}
+
+.clearfix{
+    clear:both;
+}
+
+ 
