@@ -8,7 +8,7 @@
     <header></header>
     <main>
     <?php
-    $files = glob('path/to/files/*.swf');
+    $files = glob('problems/probs');
     usort($files, function($a, $b) {
     return filemtime($b) - filemtime($a);
     });
