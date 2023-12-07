@@ -8,7 +8,7 @@
     <header></header>
     <main>
     <?php
-    $files = glob('problems/probs');
+    $files = glob('problems/probs/*.pdf');
     usort($files, function($a, $b) {
     return filemtime($b) - filemtime($a);
     });
