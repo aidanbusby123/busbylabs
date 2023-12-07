@@ -41,7 +41,11 @@
                             $latest_filename = $file;
                     }
             }
-            return $latest_filename;
+            printf('
+            <a href="%$s">%$s</a>
+            <br>
+            ',
+            basename($latest_filename), basename($latest_filename));
             ?>
 
     </body>
