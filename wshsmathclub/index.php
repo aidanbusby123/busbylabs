@@ -45,7 +45,7 @@
             <a href="%1$s">%1$s</a>
             <br>
             ',
-            basename($latest_filename));
+            $latest_filename);
             ?>
 
     </body>
