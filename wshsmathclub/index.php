@@ -46,7 +46,7 @@
             <br>
             <a href="%1$s">Download (%2$s)</a>
             <br>
-            <iframe src="%1$s" width="80%" height="80%">
+            <iframe src="%1$s" width="80vw" height="80vh">
             ',
             $latest_filename, basename($latest_filename));
             ?>
