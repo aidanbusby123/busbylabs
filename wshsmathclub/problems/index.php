@@ -9,6 +9,7 @@
     <main>
     <?php
     $files = glob('problems/probs/*.pdf');
+    echo('test');
     usort($files, create_function('$a,$b', 'return filemtime($b)-filemtime($a);'));
 
     ?>
