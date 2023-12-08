@@ -44,8 +44,8 @@
             <h2>Current Problem Set</h2>
             <a href="%1$s">Download (%2$s)</a>
             <br>
-            <div style="height:75vh;">
-            <iframe src="%1$s" width="60%%" height="100%%" style="resize:both;">
+            <div style="height:70vh;">
+            <iframe src="%1$s" width="50%%" height="100%%">
             </div>
             ',
             $latest_filename, basename($latest_filename));
