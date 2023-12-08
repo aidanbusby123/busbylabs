@@ -19,7 +19,7 @@
                 <div class="drop-content-menu">
                     <ul>
                         <li><a href="../wshsmathclub/media/(AoPS Competition Preparation) Richard Rusczyk_ Sandor Lehoczky - The Art of Problem Solving, Volume 2_ and Beyond. 2-AoPS Incorporated (2003).pdf">AOPS Volume 2</a></li>
-                        <li><a href="https://seattleschools-my.sharepoint.com/:f:/g/personal/1ambusby_seattleschools_org/Eo-H2bdkCYNMg6jHFmZyb1sBCJVTbVHe-3TBv-RsHeIOsA?e=0v5jJG">PowerPoints</a></li>
+                        <li><a href="../wshsmathclub/media/(AoPS Competition Preparation) Richard Rusczyk_ Sandor Lehoczky - the Art of Problem Solving, Volume 2_ and Beyond-AoPS Incorporated_nobr class=_greyText__(first published June 2003)__nobr_ (2006).pdf">AOPS Volume 2 Solutions</a></li>
                     </ul>
                 </div>
             </div>
