@@ -25,7 +25,6 @@
             </div>
             <a href="problems">Problem Sets</a>
         </div>
-        <br>
             <?php
             $path = "problems/probs/*";
 
@@ -47,7 +46,7 @@
             <a href="%1$s">Download (%2$s)</a>
             <br>
             <div style="height:75vh;">
-            <iframe src="%1$s" width="80%%" height="100%%">
+            <iframe src="%1$s" width="60%%" height="100%%">
             </div>
             ',
             $latest_filename, basename($latest_filename));
