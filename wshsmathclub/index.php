@@ -42,7 +42,6 @@
             }
             printf('
             <h2>Current Problem Set</h2>
-            <br>
             <a href="%1$s">Download (%2$s)</a>
             <br>
             <div style="height:75vh;">
