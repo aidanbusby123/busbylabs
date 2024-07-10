@@ -61,7 +61,6 @@ h1, h2, h3, h4, h5, p, a{
     border-style:solid;
     vertical-align:middle;
     border-width:1px;
-    border-radius:5px;
     font-size:15;
     margin:0px;
     padding:5px;
@@ -84,7 +83,6 @@ h1, h2, h3, h4, h5, p, a{
     border-style:solid;
     border-color:black;
     border-width:1px;
-    border-radius:5px;
     font-size:15;
     padding:5px;
     margin:0px;
@@ -93,14 +91,18 @@ h1, h2, h3, h4, h5, p, a{
     display:inline-block;
     vertical-align: top;
     border-style:ridge;
-    width:20%;
+    min-width:min-content;
     min-height:250px;
-    min-width:200px;
+    max-width:25%;
     padding:10px;
+}
+
+p.thumbnail{
+    font-size:16px;
 }
 
 img.thumbnail{
     float:left;
     margin:5px;
-    height:400px;
+    height:50%;
 }
