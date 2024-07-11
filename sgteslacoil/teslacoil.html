@@ -19,6 +19,59 @@
                     made of pie tins and aluminum ducting. It has a resonant frequency of 390kHz and a theoretical voltage of 1.5-1.8 million volts.
                 </p>
             </div>
+            <div>
+                <h2>Operation</h2>
+                <p>The coil uses a simple spark-gap design. An LC circuit consisting of the primary coil and the MMC capacitor bank is charged using a 12kV 30mA transformer. When the voltage
+                    of the MMC bank has reached the breakdown voltage of the air between the electrodes of the spark-gap, the spark-gap breakes, allowing the MMC to discharge through the primary
+                    coil. The primary coil acts as an inductor and forms an LC circuit with the capacitor bank, which resonates at a specific frequency, which is dependent on the inductance of
+                    the primary and the capacitance of the capacitor bank. This is the <i>primary resonant frequency</i>.
+                    <br>
+                    <br>
+                    The oscillating voltage through the primary coil induces a voltage in the secondary coil. The primary coil and secondary coil act as a step up transformer, with a much higher
+                    voltage being induced in the secondary coil.  The secondary coil forms its
+                    own LC circuit; The secondary coil is an inductor, and the toroid stores charge, acting as a capacitor with the ground. Thus, the secondary circuit has its own resonant frequency,
+                    the <i>secondary resonant frequency.</i>
+                    <br>
+                    <br>
+                    In a tesla coil, the goal is to match the primary resonant frequency with the secondary resonant frequency. This allows the primary circuit and secondary circuit to resonate,
+                    which allows the tesla coil secondary to maximize its voltage. Tesla coils have relatively weak <i>coupling</i> between the primary and secondary (coupling is the measure
+                    of how quickly the energy is transfered between coils in a transformer. Lower coupling means more oscillations are needed for the coil to discharge, and thus the sparks are 
+                    more continous), instead using resonance to maximize the voltage of the secondary. Optimal performance is reached when the primary and secondary resonant frequencies are 
+                    as close as possible.
+                </p>
+                <h2>Design</h2>
+                <p>JavaTC was used to design the Tesla coil. JavaTC is a popular tool used to quickly perform the calculations neccessary to design a working Tesla coil that properly resonates 
+                    and doesn't blow up in your face.
+                </p>
+                <div class="image">
+                    <center>
+                    <img src="media/javatc1.png" style="width:100%">
+                    </center>
+                </div>
+                <p>The secondary coil has a 24" tall secondary of approximately 1,000 turns, with a 3.5" radius. It sits about 18 inches of the ground (12" was used in the JavaTC calculations,
+                    but this isn't super critical).
+                    <br>
+                    The primary coil is a spiral that was designed to begin 3.0" from the center of the secondary ad spiral outwards to a final radius of 7.84", with a total number of turns of
+                    7.73. In the actual design, this was not realized due to some design limitations and human error.
+                    <br>
+                </p>
+                <br>
+                <div class="image">
+                    <center>
+                    <img src="media/javatc2.png" style="width:100%">
+                    </center>
+                </div>
+                <p>
+                    The secondary and primary circuits each have a theoretical resonant frequency of about 390kHz. The secondary uses a toroid with a major diameter of 13" and a minor
+                    diameter of 4" as a capacitor, and the primary circuit uses a 0.0095 MMC capacitor bank.
+                </p>
+                <br>
+                <div class="image">
+                    <center>
+                    <img src="media/javatc3.png" style="width:100%">
+                    </center>
+                </div>
+            </div>
         </main>
         <center>
         <a href="https://info.flagcounter.com/NYNF"><img src="https://s01.flagcounter.com/count2/NYNF/bg_FFFFFF/txt_000000/border_CCCCCC/columns_5/maxflags_20/viewers_0/labels_0/pageviews_0/flags_0/percent_0/" alt="Flag Counter" border="0"></a>
