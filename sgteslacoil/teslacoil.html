@@ -14,9 +14,9 @@
             <div>
                 <p>This is a 360 Watt spark gap Tesla coil powered by a 12kV neon sign transformer. It was built as my final for AP Physics sophomore year, and yielded some relatively
                     impressive results. This was my first real high voltage build, my first real Tesla coil.
-                    The coil uses a 12kV 30mA neon sign transformer that was purchased off ebay, a 0.0095 micro-Farad MMC capacitor bank that I constructed,
+                    The coil uses a 12kV 30mA neon sign transformer that was purchased off ebay, a 0.0094 micro-Farad MMC capacitor bank that I constructed,
                     a Richard-Quick style spark gap, a primary coil made of 5/16 in copper tubing, a 1000 turn secondary that I bought off ebay, and a toroid
-                    made of pie tins and aluminum ducting. It has a resonant frequency of 390kHz and a theoretical voltage of 1.5-1.8 million volts.
+                    made of pie tins and aluminum ducting. It has a resonant frequency of 390kHz and a theoretical voltage of 300-500 thousand volts.
                 </p>
             </div>
             <div>
@@ -30,14 +30,39 @@
                     The oscillating voltage through the primary coil induces a voltage in the secondary coil. The primary coil and secondary coil act as a step up transformer, with a much higher
                     voltage being induced in the secondary coil.  The secondary coil forms its
                     own LC circuit; The secondary coil is an inductor, and the toroid stores charge, acting as a capacitor with the ground. Thus, the secondary circuit has its own resonant frequency,
-                    the <i>secondary resonant frequency.</i>
+                    the <i>secondary resonant frequency.</i> When the primary circuit induces a voltage in the secondary, it transfers its energy to the secondary coil after a number of oscillations.
+                    These oscillations continue until the voltage of the primary drops to zero, at which point the primary coil with <i>theoretically</i> shut off, allowing the capacitor bank 
+                    to recharge and the process to repeat. This process of the primary circuit resonating back and forth until it has transferred all of its energy to the secondary is known as the 
+                    <i>primary ringdown.</i> , while the rise in the voltage of the oscillations in the secondary coil is known as the <i>secondary ringup</i>. 
+                    <br>
+                    <br>
+                    However, in practice the primary circuit does not shut off. Because the air surrounding the spark-gap remains ionized and conductive after it has fired,
+                    even after the voltage has dropped to zero in the primary circuit (this is known as the first primary notch)
+                    there is usually enough conductivity through the spark gap that the secondary coil will actually begin to transfer energy back to the primary coil (the secondary <i>ringdown</i>), recharging it until the 
+                    secondary voltage drops to zero, (the first secondary notch) and the primary coil then repeats the process of transfering its energy to the secondary. This will go back and forth, often with several
+                    primary and secondary notches until enough energy has 
+                    dissipated through the circuit in the form of sparks that the spark gap stops conducting and the primary circuit ceases to resonate, allowing the entire process to repeat. To achieve
+                    the best sparks, you want the tesla coil to have as few <i>primary notches</i>, and thus as few transfers of energy between the primary and secondary each time the primary circuit recharges,
+                    as possible. This is because you want the energy to be dissipated in the form of sparks instead of RF and thermal losses, and so the lesser the number of times the primary and secondary
+                    go back and forth like this, the quicker the energy is being dissipated in the form of sparks. This is where a concept known as <i>quenching</i> comes in.
                     <br>
                     <br>
                     In a tesla coil, the goal is to match the primary resonant frequency with the secondary resonant frequency. This allows the primary circuit and secondary circuit to resonate,
                     which allows the tesla coil secondary to maximize its voltage. Tesla coils have relatively weak <i>coupling</i> between the primary and secondary (coupling is the measure
                     of how quickly the energy is transfered between coils in a transformer. Lower coupling means more oscillations are needed for the coil to discharge, and thus the sparks are 
-                    more continous), instead using resonance to maximize the voltage of the secondary. Optimal performance is reached when the primary and secondary resonant frequencies are 
-                    as close as possible.
+                    more continous), instead using resonance to maximize the voltage of the secondary. Optimal performance is theoretically reached when the primary and secondary resonant frequencies are 
+                    as close as possible, although in practice it is actually better to have the primary and secondary slightly out of tune to reduce system stresses.
+                    <br>
+                    <br>
+                    Because Tesla coils rely on resonance in order to function, the output voltage of the secondary cannot be found just by calculating the turn ratio of the primary and secondary.
+                    Instead, the maximum voltage of the secondary depends on the amount of energy that is transferred to it. The voltage can then be found using the equation
+                    <br>
+                    <br>
+                    E = 0.5 * C * V<sup>2</sup>
+                    <br>
+                    <br>
+                    Where E is the energy of the system, C is the capacitance, and V is the voltage.
+
                 </p>
                 <h2>Design</h2>
                 <p>JavaTC was used to design the Tesla coil. JavaTC is a popular tool used to quickly perform the calculations neccessary to design a working Tesla coil that properly resonates 
@@ -48,7 +73,7 @@
                     <img src="media/javatc1.png" style="width:100%">
                     </center>
                 </div>
-                <p>The secondary coil has a 24" tall secondary of approximately 1,000 turns, with a 3.5" radius. It sits about 18 inches of the ground (12" was used in the JavaTC calculations,
+                <p>The secondary coil has a 24" tall secondary of approximately 1,000 turns, with a 3.5" radius. It sits about 18" of the ground (12" was used in the JavaTC calculations,
                     but this isn't super critical).
                     <br>
                     The primary coil is a spiral that was designed to begin 3.0" from the center of the secondary coil and spiral outwards to a final radius of 7.84", with a total number of turns of
@@ -112,7 +137,16 @@
                     <br>
                     June 3-10 2024
                     <br>
-                    This week I finished up the spark gap. The spark gap design I chose to use is based off of "Scot's spark gap".
+                    This week I finished up the spark gap. I chose to use a static spark gap design based off of "Scot's spark gap". "Scot's spark gap" is a rectangular version of the
+                    Richard-Quick style spark gap. Richard-Quick type spark gaps use multiple electrodes in the form of copper pipes spaced around the inside of a large pipe, so instead
+                    of having just one large gap, you have a bunch of smaller gaps. You essentially divide the spark gap between more electrodes. The reason for doing this is because of 
+                    <i>quenching</i>, which is the term for when the spark-gap ceases to conduct and goes open circuit. When there are more electrodes in the spark gap, the amount of energy
+                    that is being transfered through the spark gap is spread out among these electrodes, and this means that the amount of heat that the spark gap generates is more spread out,
+                    so the heat between each of the electrodes is much less. The reason for minimizing the heat between electrodes is that at the temperatures that the air will be heated to,
+                    conductivity is greatly increased, meaning the air between the electrodes in the spark gap will remain ionized and conductive even after the voltage of the primary circuit
+                    falls below the normal breakdown voltage. If the spark-gap does not quench in time, the secondary coil will actually begin to transfer energy <i>back to</i> the primary
+                    circuit, causing it to resonate back and forth and build up charge in the capacitor, as I mentioned before. To reduce the number of primary and secondar <i>notches</i>, and 
+                    maximize the length of the sparks, we need good quenching.
                 </p>
             </div>
         </main>
