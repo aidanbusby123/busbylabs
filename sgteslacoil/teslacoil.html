@@ -51,7 +51,7 @@
                 <p>The secondary coil has a 24" tall secondary of approximately 1,000 turns, with a 3.5" radius. It sits about 18 inches of the ground (12" was used in the JavaTC calculations,
                     but this isn't super critical).
                     <br>
-                    The primary coil is a spiral that was designed to begin 3.0" from the center of the secondary ad spiral outwards to a final radius of 7.84", with a total number of turns of
+                    The primary coil is a spiral that was designed to begin 3.0" from the center of the secondary coil and spiral outwards to a final radius of 7.84", with a total number of turns of
                     7.73. In the actual design, this was not realized due to some design limitations and human error.
                     <br>
                 </p>
@@ -63,14 +63,57 @@
                 </div>
                 <p>
                     The secondary and primary circuits each have a theoretical resonant frequency of about 390kHz. The secondary uses a toroid with a major diameter of 13" and a minor
-                    diameter of 4" as a capacitor, and the primary circuit uses a 0.0095 MMC capacitor bank.
+                    diameter of 4" as a capacitor, and the primary circuit uses a 0.0094 micro-Farad MMC capacitor bank.
                 </p>
                 <br>
-                <div class="image">
+                <div class="image">            </div>
+
                     <center>
                     <img src="media/javatc3.png" style="width:100%">
                     </center>
                 </div>
+            </div>
+            <div>
+                <h2>Construction</h2>
+                <p>
+                    June 1 2024
+                    <br>
+                    Today I began the construction of the capacitor bank. The capacitor bank consists of two rows of ten capacitors each, in parallel with one another, for a total of twenty 
+                    capacitors. Each capacitor is 0.047 uF rated at 3,000 volts, for a total rated voltage of 30,000 volts and a capacitance of 0.0094 uF. This matches up well with the 
+                    recommended LTR (larger than resonance) capacitor bank size for my setup of 0.0099 uF. Because the voltages in a Tesla coil primary circuit will rise higher than the
+                    output voltage of the transformer, and can peak at several times this voltage for various reasons, it is smart to have a capacitor bank with a slightly higher capacitance
+                    than the resonant value in order to avoid overloading the system. This puts much less stress on the transformer and capacitor bank and reduces the chances of 
+                    damaging the Tesla coil over continous use.
+                    <br>
+                    I began construction by marking up the lexan that I bought at the hardware store using a ruler and permanent marker. After marking everything, I began drilling the holes
+                    for the four 0.25" metal bolts that go in the corners of the three pieces of lexan to hold them together. I just taped all three together and only marked up the top sheet
+                    of lexan. After this was done, I removed the two other sheets from the pile and drilled the twenty holes for the capacitor leads. I used a small drill bit, around 1/16". 
+
+                    <br>
+                    Once the holes were drilled, I began placing the capacitors on the lexan, winding their legs through the holes. Then, I got to soldering the capacitors together, 
+                    connecting the leads on the other side of the lexan, through the holes.
+                    <br>
+                    <br>
+                    June 2 2024
+                    <br>
+                    Finished soldering the capacitors together, then soldered the bleed resistors to the capacitor bank. Because the capacitor bank will almost certainly be charged to some 
+                    percentage of the breakdown voltage of the spark gap, which is the point at which the spark gap fires and the circuit resonates, there needs to be a way to allow the 
+                    capaitor bank to discharge after the circuit has been turned off. By attaching resistors of a relitvely high resistance between the two leads of each of the capacitors, 
+                    allowing enough current to discharge the capacitor bank relatively quickly after it has been turned off, but not enough to hinder its performance. In my case, I used
+                    10MOhm (5W?) resistors, between each of the twenty capacitors.
+                    <br>
+                    After the capacitors and resistors were soldered together, I added the four bolts and enough nuts to keep the lexan pieces properly spaced apart.
+                    <br>
+                    <br>
+                    With the capacitor bank finished, I began work on the spark gap. The spark gap uses a series of 1" diameter copper tubes as the leads, so I cut nine of those at 2" long.
+                    Then, I put each of them in a vise and marked where I was going to put the holes to mount them, about a (half inch?) from each end of the tube. Each hole was drilled at
+                    at 0.25", through one side, in order to mount the copper tubes.
+                    <br>
+                    <br>
+                    June 3-10 2024
+                    <br>
+                    This week I finished up the spark gap. The spark gap design I chose to use is based off of "Scot's spark gap".
+                </p>
             </div>
         </main>
         <center>
