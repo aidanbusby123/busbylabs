@@ -1,5 +1,5 @@
 p{
-    margin:10px;
+    margin:auto;
     padding:2px;
     font-size:14px;
     line-height:1.5;
@@ -11,8 +11,7 @@ main{
 }
 
 div.image{
-    width:fit-content;
-    font-size:12px;
+    margin:auto;
 }
 div.gallery{
     width:fit-content;
@@ -23,7 +22,6 @@ img.gallery{
     max-height:600px;
 }
 img.image{
-    max-width:200px;
     margin-right:auto;
     margin-left:auto;
 }
@@ -98,7 +96,7 @@ h1, h2, h3, h4, h5, p, a{
 }
 
 p.thumbnail{
-    font-size:16px;
+    font-size:14px;
 }
 
 img.thumbnail{
