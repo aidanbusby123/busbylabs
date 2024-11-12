@@ -2,7 +2,7 @@
 session_start();
 
 // Path to the file where the hashed password is stored
-$password_file = 'adminpassword';
+$password_file = '../adminpassword';
 
 // Check if the password file exists
 if (!file_exists($password_file)) {
