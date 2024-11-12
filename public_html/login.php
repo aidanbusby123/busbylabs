@@ -1,16 +1,22 @@
 <?php
 session_start();
 
-// Define the correct username and password (in production, you should use hashed passwords and a database)
-$correct_username = "admin";
-$correct_password = "#higgsboson";  // Change this to a secure password
+// Path to the file where the hashed password is stored
+$password_file = 'adminpassword';
+
+// Check if the password file exists
+if (!file_exists($password_file)) {
+    die('Password file not found.');
+}
+
+$stored_hash = file_get_contents($password_file);  // Read the stored hash from the file
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $username = $_POST['username'];
     $password = $_POST['password'];
 
-    // Check if the username and password are correct
-    if ($username == $correct_username && $password == $correct_password) {
+    // Check if the username is correct (you can hardcode the username or add a check)
+    if ($username == 'admin' && password_verify($password, $stored_hash)) {
         $_SESSION['loggedin'] = true;
         header('Location: admin.php');
         exit();
