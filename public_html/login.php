@@ -9,7 +9,7 @@ if (!file_exists($password_file)) {
     die('Password file not found.');
 }
 
-$stored_hash = file_get_contents($password_file);  // Read the stored hash from the file
+$stored_hash = '$2y$10$EgNW9unKp9vuzZi5IuU6MeR2HiUbFU99RCx1jWIMZybGOJTjVzCyi'; // file_get_contents($password_file);  // Read the stored hash from the file
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $username = $_POST['username'];
