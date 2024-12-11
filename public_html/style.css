@@ -17,11 +17,8 @@ div.image{
 div.gallery{
     width:fit-content;
     margin:auto;
-    max-height:600px;
 }
-img.gallery{
-    max-height:600px;
-}
+
 img.image{
     margin-right:auto;
     margin-left:auto;
