@@ -19,6 +19,16 @@ div.gallery{
     margin:auto;
 }
 
+img.sgcoilgallery{
+    width:100%;
+}
+
+div.sgcoilgallery{
+    width:50%;
+    float:left;
+    margin:auto;
+}
+
 img.image{
     margin-right:auto;
     margin-left:auto;
