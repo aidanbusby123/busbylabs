@@ -4,22 +4,22 @@ import axios from 'axios';
 function App() {
   const canvasRef = useRef(null);
   const [prediction, setPrediction] = useState(null);
-  const [brushSize, setBrushSize] = useState(1); // State to store brush size
+  const [blockSize, setBlockSize] = useState(10); // Size of each block
 
-  // Function to calculate and set brush size based on screen dimensions
+  // Function to calculate and set block size based on screen dimensions
   useEffect(() => {
-    const calculateBrushSize = () => {
+    const calculateBlockSize = () => {
       const width = window.innerWidth;
       const height = window.innerHeight;
       const size = Math.min(width, height) / 28; // 1/28th of the smaller dimension
-      setBrushSize(size);
+      setBlockSize(size);
     };
 
-    calculateBrushSize();
-    window.addEventListener('resize', calculateBrushSize); // Recalculate on window resize
+    calculateBlockSize();
+    window.addEventListener('resize', calculateBlockSize); // Recalculate on window resize
 
     return () => {
-      window.removeEventListener('resize', calculateBrushSize);
+      window.removeEventListener('resize', calculateBlockSize);
     };
   }, []);
 
@@ -65,6 +65,25 @@ function App() {
     }
   };
 
+  // Function to draw blocks on the canvas
+  const drawBlock = (e) => {
+    const canvas = canvasRef.current;
+    const ctx = canvas.getContext('2d');
+    const rect = canvas.getBoundingClientRect();
+
+    // Get the mouse position relative to the canvas
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+
+    // Calculate the top-left corner of the block
+    const x1 = Math.floor(x / blockSize) * blockSize;
+    const y1 = Math.floor(y / blockSize) * blockSize;
+
+    // Draw a filled rectangle (block)
+    ctx.fillStyle = 'black';
+    ctx.fillRect(x1, y1, blockSize, blockSize);
+  };
+
   return (
     <div style={{ textAlign: 'center' }}>
       <h1>Draw a Digit</h1>
@@ -73,21 +92,11 @@ function App() {
         width={280}
         height={280}
         style={{ border: '1px solid black' }}
-        onMouseDown={(e) => {
-          const canvas = canvasRef.current;
-          const ctx = canvas.getContext('2d');
-          ctx.lineWidth = brushSize; // Set brush size
-          ctx.beginPath();
-          ctx.moveTo(e.nativeEvent.offsetX, e.nativeEvent.offsetY);
-        }}
         onMouseMove={(e) => {
           if (e.buttons !== 1) return; // Only draw when the left mouse button is pressed
-          const canvas = canvasRef.current;
-          const ctx = canvas.getContext('2d');
-          ctx.lineWidth = brushSize; // Set brush size
-          ctx.lineTo(e.nativeEvent.offsetX, e.nativeEvent.offsetY);
-          ctx.stroke();
+          drawBlock(e);
         }}
+        onMouseDown={(e) => drawBlock(e)} // Draw on mouse down
       />
       <div>
         <button onClick={predictDigit}>Predict</button>
