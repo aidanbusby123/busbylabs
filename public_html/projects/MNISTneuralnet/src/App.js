@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import axios from 'axios';
 
 function App() {
@@ -12,8 +12,14 @@ function App() {
   const clearCanvas = () => {
     const canvas = canvasRef.current;
     const ctx = canvas.getContext('2d');
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = 'white'; // Set the canvas background to white
+    ctx.fillRect(0, 0, canvas.width, canvas.height); // Fill the canvas with white
   };
+
+  // Clear the canvas on initial load
+  useEffect(() => {
+    clearCanvas();
+  }, []);
 
   // Function to send the canvas data to the backend
   const predictDigit = async () => {
@@ -33,6 +39,8 @@ function App() {
       const normalized = 1 - grayscale / 255; // Invert so 0 is white and 1 is black
       grayscaleData.push(normalized);
     }
+
+    console.log("Grayscale Data:", grayscaleData); // Debugging
 
     // Resize the image to 28x28 (MNIST format)
     const resizedData = [];
@@ -57,6 +65,8 @@ function App() {
         resizedData.push(sum / count); // Average grayscale value for the block
       }
     }
+
+    console.log("Resized Data:", resizedData); // Debugging
 
     try {
       // Send the image data to the backend
@@ -86,6 +96,8 @@ function App() {
     // Calculate the bottom-right corner of the block (brush size is 2 * blockSize)
     const x2 = x1 + brushSize;
     const y2 = y1 + brushSize;
+
+    console.log(`Drawing block at (${x1}, ${y1}) to (${x2}, ${y2})`); // Debugging
 
     // Draw a filled rectangle (block)
     ctx.fillStyle = 'black';
