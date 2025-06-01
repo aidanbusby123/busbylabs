@@ -1,9 +1,27 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import axios from 'axios';
 
 function App() {
   const canvasRef = useRef(null);
   const [prediction, setPrediction] = useState(null);
+  const [brushSize, setBrushSize] = useState(1); // State to store brush size
+
+  // Function to calculate and set brush size based on screen dimensions
+  useEffect(() => {
+    const calculateBrushSize = () => {
+      const width = window.innerWidth;
+      const height = window.innerHeight;
+      const size = Math.min(width, height) / 28; // 1/28th of the smaller dimension
+      setBrushSize(size);
+    };
+
+    calculateBrushSize();
+    window.addEventListener('resize', calculateBrushSize); // Recalculate on window resize
+
+    return () => {
+      window.removeEventListener('resize', calculateBrushSize);
+    };
+  }, []);
 
   // Function to clear the canvas
   const clearCanvas = () => {
@@ -58,6 +76,7 @@ function App() {
         onMouseDown={(e) => {
           const canvas = canvasRef.current;
           const ctx = canvas.getContext('2d');
+          ctx.lineWidth = brushSize; // Set brush size
           ctx.beginPath();
           ctx.moveTo(e.nativeEvent.offsetX, e.nativeEvent.offsetY);
         }}
@@ -65,6 +84,7 @@ function App() {
           if (e.buttons !== 1) return; // Only draw when the left mouse button is pressed
           const canvas = canvasRef.current;
           const ctx = canvas.getContext('2d');
+          ctx.lineWidth = brushSize; // Set brush size
           ctx.lineTo(e.nativeEvent.offsetX, e.nativeEvent.offsetY);
           ctx.stroke();
         }}
