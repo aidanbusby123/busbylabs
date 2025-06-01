@@ -41,7 +41,7 @@ function App() {
 
     try {
       // Send the image data to the backend
-      const response = await axios.post('https://busbylabs.com/predict', {
+      const response = await axios.post('https://busbylabs.com/projects/MNISTneuralnet/predict', {
         image: resizedData,
       });
       setPrediction(response.data.digit);
