@@ -23,10 +23,15 @@ function App() {
     // Get the image data from the canvas
     const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
     const grayscaleData = [];
+
+    // Convert the canvas data to grayscale and normalize
     for (let i = 0; i < imageData.data.length; i += 4) {
       // Convert to grayscale (average of R, G, B)
       const grayscale = (imageData.data[i] + imageData.data[i + 1] + imageData.data[i + 2]) / 3;
-      grayscaleData.push(grayscale);
+
+      // Normalize: 0 (white) to 1 (black)
+      const normalized = 1 - grayscale / 255; // Invert so 0 is white and 1 is black
+      grayscaleData.push(normalized);
     }
 
     // Resize the image to 28x28 (MNIST format)
@@ -34,8 +39,22 @@ function App() {
     const scale = canvas.width / 28;
     for (let y = 0; y < 28; y++) {
       for (let x = 0; x < 28; x++) {
-        const pixelIndex = Math.floor(y * scale) * canvas.width + Math.floor(x * scale);
-        resizedData.push(grayscaleData[pixelIndex]);
+        const startX = Math.floor(x * scale);
+        const startY = Math.floor(y * scale);
+        const endX = Math.floor((x + 1) * scale);
+        const endY = Math.floor((y + 1) * scale);
+
+        // Average the grayscale values in the block
+        let sum = 0;
+        let count = 0;
+        for (let yy = startY; yy < endY; yy++) {
+          for (let xx = startX; xx < endX; xx++) {
+            const pixelIndex = yy * canvas.width + xx;
+            sum += grayscaleData[pixelIndex];
+            count++;
+          }
+        }
+        resizedData.push(sum / count); // Average grayscale value for the block
       }
     }
 
