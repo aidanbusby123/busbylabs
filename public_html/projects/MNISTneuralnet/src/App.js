@@ -1,27 +1,12 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef, useState } from 'react';
 import axios from 'axios';
 
 function App() {
   const canvasRef = useRef(null);
   const [prediction, setPrediction] = useState(null);
-  const [blockSize, setBlockSize] = useState(10); // Size of each block
 
-  // Function to calculate and set block size based on screen dimensions
-  useEffect(() => {
-    const calculateBlockSize = () => {
-      const width = window.innerWidth;
-      const height = window.innerHeight;
-      const size = Math.min(width, height) / 28; // 1/28th of the smaller dimension
-      setBlockSize(size);
-    };
-
-    calculateBlockSize();
-    window.addEventListener('resize', calculateBlockSize); // Recalculate on window resize
-
-    return () => {
-      window.removeEventListener('resize', calculateBlockSize);
-    };
-  }, []);
+  const blockSize = 20; // Fixed block size
+  const brushSize = 2 * blockSize; // Brush size is 2x the block size
 
   // Function to clear the canvas
   const clearCanvas = () => {
@@ -79,9 +64,13 @@ function App() {
     const x1 = Math.floor(x / blockSize) * blockSize;
     const y1 = Math.floor(y / blockSize) * blockSize;
 
+    // Calculate the bottom-right corner of the block (brush size is 2 * blockSize)
+    const x2 = x1 + brushSize;
+    const y2 = y1 + brushSize;
+
     // Draw a filled rectangle (block)
     ctx.fillStyle = 'black';
-    ctx.fillRect(x1, y1, blockSize, blockSize);
+    ctx.fillRect(x1, y1, x2 - x1, y2 - y1);
   };
 
   return (
@@ -89,8 +78,8 @@ function App() {
       <h1>Draw a Digit</h1>
       <canvas
         ref={canvasRef}
-        width={280}
-        height={280}
+        width={560} // Fixed canvas size to match Tkinter
+        height={560} // Fixed canvas size to match Tkinter
         style={{ border: '1px solid black' }}
         onMouseMove={(e) => {
           if (e.buttons !== 1) return; // Only draw when the left mouse button is pressed
