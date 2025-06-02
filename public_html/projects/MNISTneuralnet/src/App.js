@@ -121,15 +121,19 @@ function App() {
   // Function to handle mouse events
   const handleMouseDown = (e) => {
     const rect = canvasRef.current.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
+    const scaleX = canvasRef.current.width / rect.width; // Account for scaling
+    const scaleY = canvasRef.current.height / rect.height; // Account for scaling
+    const x = (e.clientX - rect.left) * scaleX;
+    const y = (e.clientY - rect.top) * scaleY;
     startDrawing(x, y);
   };
 
   const handleMouseMove = (e) => {
     const rect = canvasRef.current.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
+    const scaleX = canvasRef.current.width / rect.width; // Account for scaling
+    const scaleY = canvasRef.current.height / rect.height; // Account for scaling
+    const x = (e.clientX - rect.left) * scaleX;
+    const y = (e.clientY - rect.top) * scaleY;
     drawBlock(x, y);
   };
 
@@ -141,18 +145,22 @@ function App() {
   const handleTouchStart = (e) => {
     e.preventDefault();
     const rect = canvasRef.current.getBoundingClientRect();
+    const scaleX = canvasRef.current.width / rect.width; // Account for scaling
+    const scaleY = canvasRef.current.height / rect.height; // Account for scaling
     const touch = e.touches[0];
-    const x = touch.clientX - rect.left;
-    const y = touch.clientY - rect.top;
+    const x = (touch.clientX - rect.left) * scaleX;
+    const y = (touch.clientY - rect.top) * scaleY;
     startDrawing(x, y);
   };
 
   const handleTouchMove = (e) => {
     e.preventDefault();
     const rect = canvasRef.current.getBoundingClientRect();
+    const scaleX = canvasRef.current.width / rect.width; // Account for scaling
+    const scaleY = canvasRef.current.height / rect.height; // Account for scaling
     const touch = e.touches[0];
-    const x = touch.clientX - rect.left;
-    const y = touch.clientY - rect.top;
+    const x = (touch.clientX - rect.left) * scaleX;
+    const y = (touch.clientY - rect.top) * scaleY;
     drawBlock(x, y);
   };
 
