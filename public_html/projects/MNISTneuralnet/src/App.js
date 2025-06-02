@@ -33,17 +33,11 @@ function App() {
 
     // Convert the canvas data to grayscale and normalize
     for (let i = 0; i < imageData.data.length; i += 4) {
-      // Convert to grayscale (average of R, G, B)
       const grayscale = (imageData.data[i] + imageData.data[i + 1] + imageData.data[i + 2]) / 3;
-
-      // Normalize: 0 (white) to 1 (black)
       const normalized = 1 - grayscale / 255; // Invert so 0 is white and 1 is black
       grayscaleData.push(normalized);
     }
 
-    console.log("Grayscale Data:", grayscaleData); // Debugging
-
-    // Resize the image to 28x28 (MNIST format)
     const resizedData = [];
     const scale = canvas.width / 28;
     for (let y = 0; y < 28; y++) {
@@ -53,7 +47,6 @@ function App() {
         const endX = Math.floor((x + 1) * scale);
         const endY = Math.floor((y + 1) * scale);
 
-        // Average the grayscale values in the block
         let sum = 0;
         let count = 0;
         for (let yy = startY; yy < endY; yy++) {
@@ -63,47 +56,38 @@ function App() {
             count++;
           }
         }
-        resizedData.push(sum / count); // Average grayscale value for the block
+        resizedData.push(sum / count);
       }
     }
 
-    console.log("Resized Data:", resizedData); // Debugging
-
     try {
-      // Send the image data to the backend
       const response = await axios.post('https://busbylabs.com/projects/MNISTneuralnet/predict', {
         image: resizedData,
       });
 
-      // Extract prediction and probabilities
+      console.log("Backend Response:", response.data); // Debugging
+
       setPrediction(response.data.digit);
-      setProbabilities(response.data.probabilities); // Store probabilities for rendering
+      setProbabilities(response.data.probabilities || []); // Handle missing probabilities
     } catch (error) {
       console.error('Error predicting digit:', error);
     }
   };
 
-  // Function to draw blocks on the canvas
   const drawBlock = (e) => {
     const canvas = canvasRef.current;
     const ctx = canvas.getContext('2d');
     const rect = canvas.getBoundingClientRect();
 
-    // Get the mouse position relative to the canvas
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
 
-    // Calculate the top-left corner of the block
     const x1 = Math.floor(x / blockSize) * blockSize;
     const y1 = Math.floor(y / blockSize) * blockSize;
 
-    // Calculate the bottom-right corner of the block (brush size is 2 * blockSize)
     const x2 = x1 + brushSize;
     const y2 = y1 + brushSize;
 
-    console.log(`Drawing block at (${x1}, ${y1}) to (${x2}, ${y2})`); // Debugging
-
-    // Draw a filled rectangle (block)
     ctx.fillStyle = 'black';
     ctx.fillRect(x1, y1, x2 - x1, y2 - y1);
   };
@@ -113,14 +97,14 @@ function App() {
       <h1>Draw a Digit</h1>
       <canvas
         ref={canvasRef}
-        width={560} // Fixed canvas size to match Tkinter
-        height={560} // Fixed canvas size to match Tkinter
+        width={560}
+        height={560}
         style={{ border: '1px solid black' }}
         onMouseMove={(e) => {
-          if (e.buttons !== 1) return; // Only draw when the left mouse button is pressed
+          if (e.buttons !== 1) return;
           drawBlock(e);
         }}
-        onMouseDown={(e) => drawBlock(e)} // Draw on mouse down
+        onMouseDown={(e) => drawBlock(e)}
       />
       <div>
         <button onClick={predictDigit}>Predict</button>
@@ -128,8 +112,7 @@ function App() {
       </div>
       {prediction !== null && <h2>Predicted Digit: {prediction}</h2>}
 
-      {/* Render probability bars */}
-      {probabilities.length > 0 && (
+      {Array.isArray(probabilities) && probabilities.length > 0 && (
         <div style={{ marginTop: '20px' }}>
           <h3>Prediction Probabilities</h3>
           <div style={{ display: 'flex', justifyContent: 'center', gap: '10px' }}>
@@ -138,7 +121,7 @@ function App() {
                 <div
                   style={{
                     width: '30px',
-                    height: `${prob * 100}%`, // Scale height based on probability
+                    height: `${prob * 100}%`,
                     backgroundColor: 'blue',
                     margin: '0 auto',
                   }}
