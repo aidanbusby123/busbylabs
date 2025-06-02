@@ -74,6 +74,7 @@ function App() {
     }
   };
 
+  // Function to draw blocks on the canvas
   const drawBlock = (e) => {
     const canvas = canvasRef.current;
     const ctx = canvas.getContext('2d');
@@ -92,6 +93,28 @@ function App() {
     ctx.fillRect(x1, y1, x2 - x1, y2 - y1);
   };
 
+  // Function to handle touch events for mobile users
+  const handleTouch = (e) => {
+    const canvas = canvasRef.current;
+    const ctx = canvas.getContext('2d');
+    const rect = canvas.getBoundingClientRect();
+
+    e.preventDefault(); // Prevent scrolling while drawing
+
+    const touch = e.touches[0];
+    const x = touch.clientX - rect.left;
+    const y = touch.clientY - rect.top;
+
+    const x1 = Math.floor(x / blockSize) * blockSize;
+    const y1 = Math.floor(y / blockSize) * blockSize;
+
+    const x2 = x1 + brushSize;
+    const y2 = y1 + brushSize;
+
+    ctx.fillStyle = 'black';
+    ctx.fillRect(x1, y1, x2 - x1, y2 - y1);
+  };
+
   return (
     <div style={{ textAlign: 'center' }}>
       <h1>Draw a Digit</h1>
@@ -99,34 +122,61 @@ function App() {
         ref={canvasRef}
         width={560}
         height={560}
-        style={{ border: '1px solid black' }}
+        style={{
+          border: '1px solid black',
+          width: '90vw', // Responsive width for mobile
+          maxWidth: '560px', // Limit maximum width
+          height: 'auto', // Maintain aspect ratio
+        }}
         onMouseMove={(e) => {
           if (e.buttons !== 1) return;
           drawBlock(e);
         }}
         onMouseDown={(e) => drawBlock(e)}
+        onTouchMove={(e) => handleTouch(e)} // Add touch support
+        onTouchStart={(e) => handleTouch(e)} // Add touch support
       />
       <div>
-        <button onClick={predictDigit}>Predict</button>
-        <button onClick={clearCanvas}>Clear</button>
+        <button
+          onClick={predictDigit}
+          style={{
+            padding: '10px 20px',
+            fontSize: '16px',
+            margin: '10px',
+            cursor: 'pointer',
+          }}
+        >
+          Predict
+        </button>
+        <button
+          onClick={clearCanvas}
+          style={{
+            padding: '10px 20px',
+            fontSize: '16px',
+            margin: '10px',
+            cursor: 'pointer',
+          }}
+        >
+          Clear
+        </button>
       </div>
       {prediction !== null && <h2>Predicted Digit: {prediction}</h2>}
 
       {Array.isArray(probabilities) && probabilities.length > 0 && (
         <div style={{ marginTop: '20px' }}>
           <h3>Prediction Probabilities</h3>
-          <div style={{ display: 'flex', justifyContent: 'center', gap: '10px' }}>
+          <div style={{ display: 'flex', justifyContent: 'center', gap: '5px', flexWrap: 'wrap' }}>
             {probabilities.map((prob, index) => (
-              <div key={index} style={{ textAlign: 'center' }}>
+              <div key={index} style={{ textAlign: 'center', margin: '5px' }}>
                 <div
                   style={{
-                    width: '30px',
+                    width: '20px', // Adjust width for smaller screens
                     height: `${prob * 100}%`,
                     backgroundColor: 'blue',
                     margin: '0 auto',
                   }}
                 ></div>
-                <span>{index}</span>
+                <span style={{ fontSize: '12px' }}>{index}</span>
               </div>
             ))}
           </div>
