@@ -110,7 +110,7 @@ function App() {
 
     // Draw a filled rectangle (block) at the grid cell
     ctx.fillStyle = 'black';
-    ctx.fillRect(gridX, gridY, blockSize, blockSize);
+    ctx.fillRect(gridX, gridY, blockSize * 2, blockSize * 2);
   };
 
   // Function to stop drawing
