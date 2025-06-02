@@ -6,8 +6,8 @@ function App() {
   const [prediction, setPrediction] = useState(null);
   const [probabilities, setProbabilities] = useState([]); // Store probabilities for each digit
 
-  const blockSize = 20; // Fixed block size
-  const brushSize = 10; // Adjust brush size for smoother drawing
+  const brushSize = 10; // Brush size for drawing
+  let isDrawing = false; // Track whether the user is drawing
 
   // Function to clear the canvas
   const clearCanvas = () => {
@@ -89,45 +89,70 @@ function App() {
     }
   };
 
-  // Function to draw blocks on the canvas
-  const drawBlock = (e) => {
-    const canvas = canvasRef.current;
-    const ctx = canvas.getContext('2d');
-    const rect = canvas.getBoundingClientRect();
-
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-
-    const x1 = Math.floor(x / blockSize) * blockSize;
-    const y1 = Math.floor(y / blockSize) * blockSize;
-
-    const x2 = x1 + brushSize;
-    const y2 = y1 + brushSize;
-
-    ctx.fillStyle = 'black';
-    ctx.fillRect(x1, y1, x2 - x1, y2 - y1);
+  // Function to start drawing
+  const startDrawing = (x, y) => {
+    isDrawing = true;
+    draw(x, y); // Start drawing immediately
   };
 
-  // Function to handle touch events for mobile users
-  const handleTouch = (e) => {
-    e.preventDefault(); // Prevent scrolling or refreshing
+  // Function to draw on the canvas
+  const draw = (x, y) => {
+    if (!isDrawing) return;
 
     const canvas = canvasRef.current;
     const ctx = canvas.getContext('2d');
-    const rect = canvas.getBoundingClientRect();
 
+    ctx.beginPath();
+    ctx.arc(x, y, brushSize / 2, 0, Math.PI * 2); // Draw a circle at the current position
+    ctx.fillStyle = 'black';
+    ctx.fill();
+  };
+
+  // Function to stop drawing
+  const stopDrawing = () => {
+    isDrawing = false;
+  };
+
+  // Function to handle mouse events
+  const handleMouseDown = (e) => {
+    const rect = canvasRef.current.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    startDrawing(x, y);
+  };
+
+  const handleMouseMove = (e) => {
+    const rect = canvasRef.current.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    draw(x, y);
+  };
+
+  const handleMouseUp = () => {
+    stopDrawing();
+  };
+
+  // Function to handle touch events
+  const handleTouchStart = (e) => {
+    e.preventDefault();
+    const rect = canvasRef.current.getBoundingClientRect();
     const touch = e.touches[0];
     const x = touch.clientX - rect.left;
     const y = touch.clientY - rect.top;
+    startDrawing(x, y);
+  };
 
-    const x1 = Math.floor(x / blockSize) * blockSize;
-    const y1 = Math.floor(y / blockSize) * blockSize;
+  const handleTouchMove = (e) => {
+    e.preventDefault();
+    const rect = canvasRef.current.getBoundingClientRect();
+    const touch = e.touches[0];
+    const x = touch.clientX - rect.left;
+    const y = touch.clientY - rect.top;
+    draw(x, y);
+  };
 
-    const x2 = x1 + brushSize;
-    const y2 = y1 + brushSize;
-
-    ctx.fillStyle = 'black';
-    ctx.fillRect(x1, y1, x2 - x1, y2 - y1);
+  const handleTouchEnd = () => {
+    stopDrawing();
   };
 
   return (
@@ -143,13 +168,13 @@ function App() {
           maxWidth: '560px', // Limit maximum width
           height: 'auto', // Maintain aspect ratio
         }}
-        onMouseMove={(e) => {
-          if (e.buttons !== 1) return;
-          drawBlock(e);
-        }}
-        onMouseDown={(e) => drawBlock(e)}
-        onTouchMove={(e) => handleTouch(e)} // Add touch support
-        onTouchStart={(e) => handleTouch(e)} // Add touch support
+        onMouseDown={handleMouseDown}
+        onMouseMove={handleMouseMove}
+        onMouseUp={handleMouseUp}
+        onMouseLeave={handleMouseUp} // Stop drawing if the mouse leaves the canvas
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
       />
       <div>
         <button
