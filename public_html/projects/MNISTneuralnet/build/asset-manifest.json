@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/projects/MNISTneuralnet/build/static/css/main.e6c13ad2.css",
-    "main.js": "/projects/MNISTneuralnet/build/static/js/main.9a3b8e0d.js",
+    "main.js": "/projects/MNISTneuralnet/build/static/js/main.096315a9.js",
     "static/js/453.ed981c9b.chunk.js": "/projects/MNISTneuralnet/build/static/js/453.ed981c9b.chunk.js",
     "index.html": "/projects/MNISTneuralnet/build/index.html",
     "main.e6c13ad2.css.map": "/projects/MNISTneuralnet/build/static/css/main.e6c13ad2.css.map",
-    "main.9a3b8e0d.js.map": "/projects/MNISTneuralnet/build/static/js/main.9a3b8e0d.js.map",
+    "main.096315a9.js.map": "/projects/MNISTneuralnet/build/static/js/main.096315a9.js.map",
     "453.ed981c9b.chunk.js.map": "/projects/MNISTneuralnet/build/static/js/453.ed981c9b.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.e6c13ad2.css",
-    "static/js/main.9a3b8e0d.js"
+    "static/js/main.096315a9.js"
   ]
 }

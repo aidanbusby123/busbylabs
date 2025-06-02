@@ -6,7 +6,9 @@ function App() {
   const [prediction, setPrediction] = useState(null);
   const [probabilities, setProbabilities] = useState([]); // Store probabilities for each digit
 
-  const brushSize = 10; // Brush size for drawing
+  const gridSize = 28; // The grid is 28x28
+  const canvasSize = 560; // The canvas is 560x560
+  const blockSize = canvasSize / gridSize; // Size of each block in the grid
   let isDrawing = false; // Track whether the user is drawing
 
   // Function to clear the canvas
@@ -54,9 +56,9 @@ function App() {
     }
 
     const resizedData = [];
-    const scale = canvas.width / 28;
-    for (let y = 0; y < 28; y++) {
-      for (let x = 0; x < 28; x++) {
+    const scale = canvas.width / gridSize;
+    for (let y = 0; y < gridSize; y++) {
+      for (let x = 0; x < gridSize; x++) {
         const startX = Math.floor(x * scale);
         const startY = Math.floor(y * scale);
         const endX = Math.floor((x + 1) * scale);
@@ -92,20 +94,23 @@ function App() {
   // Function to start drawing
   const startDrawing = (x, y) => {
     isDrawing = true;
-    draw(x, y); // Start drawing immediately
+    drawBlock(x, y); // Start drawing immediately
   };
 
-  // Function to draw on the canvas
-  const draw = (x, y) => {
+  // Function to draw a block on the canvas
+  const drawBlock = (x, y) => {
     if (!isDrawing) return;
 
     const canvas = canvasRef.current;
     const ctx = canvas.getContext('2d');
 
-    ctx.beginPath();
-    ctx.arc(x, y, brushSize / 2, 0, Math.PI * 2); // Draw a circle at the current position
+    // Calculate the grid cell (block) based on the current position
+    const gridX = Math.floor(x / blockSize) * blockSize;
+    const gridY = Math.floor(y / blockSize) * blockSize;
+
+    // Draw a filled rectangle (block) at the grid cell
     ctx.fillStyle = 'black';
-    ctx.fill();
+    ctx.fillRect(gridX, gridY, blockSize, blockSize);
   };
 
   // Function to stop drawing
@@ -125,7 +130,7 @@ function App() {
     const rect = canvasRef.current.getBoundingClientRect();
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
-    draw(x, y);
+    drawBlock(x, y);
   };
 
   const handleMouseUp = () => {
@@ -148,7 +153,7 @@ function App() {
     const touch = e.touches[0];
     const x = touch.clientX - rect.left;
     const y = touch.clientY - rect.top;
-    draw(x, y);
+    drawBlock(x, y);
   };
 
   const handleTouchEnd = () => {
@@ -160,12 +165,12 @@ function App() {
       <h1>Draw a Digit</h1>
       <canvas
         ref={canvasRef}
-        width={560}
-        height={560}
+        width={canvasSize}
+        height={canvasSize}
         style={{
           border: '1px solid black',
           width: '90vw', // Responsive width for mobile
-          maxWidth: '560px', // Limit maximum width
+          maxWidth: `${canvasSize}px`, // Limit maximum width
           height: 'auto', // Maintain aspect ratio
         }}
         onMouseDown={handleMouseDown}
