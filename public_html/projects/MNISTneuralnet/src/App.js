@@ -7,7 +7,7 @@ function App() {
   const [probabilities, setProbabilities] = useState([]); // Store probabilities for each digit
 
   const blockSize = 20; // Fixed block size
-  const brushSize = 2 * blockSize; // Brush size is 2x the block size
+  const brushSize = 10; // Adjust brush size for smoother drawing
 
   // Function to clear the canvas
   const clearCanvas = () => {
