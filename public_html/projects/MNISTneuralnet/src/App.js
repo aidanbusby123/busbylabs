@@ -4,6 +4,7 @@ import axios from 'axios';
 function App() {
   const canvasRef = useRef(null);
   const [prediction, setPrediction] = useState(null);
+  const [probabilities, setProbabilities] = useState([]); // Store probabilities for each digit
 
   const blockSize = 20; // Fixed block size
   const brushSize = 2 * blockSize; // Brush size is 2x the block size
@@ -73,7 +74,10 @@ function App() {
       const response = await axios.post('https://busbylabs.com/projects/MNISTneuralnet/predict', {
         image: resizedData,
       });
+
+      // Extract prediction and probabilities
       setPrediction(response.data.digit);
+      setProbabilities(response.data.probabilities); // Store probabilities for rendering
     } catch (error) {
       console.error('Error predicting digit:', error);
     }
@@ -123,6 +127,28 @@ function App() {
         <button onClick={clearCanvas}>Clear</button>
       </div>
       {prediction !== null && <h2>Predicted Digit: {prediction}</h2>}
+
+      {/* Render probability bars */}
+      {probabilities.length > 0 && (
+        <div style={{ marginTop: '20px' }}>
+          <h3>Prediction Probabilities</h3>
+          <div style={{ display: 'flex', justifyContent: 'center', gap: '10px' }}>
+            {probabilities.map((prob, index) => (
+              <div key={index} style={{ textAlign: 'center' }}>
+                <div
+                  style={{
+                    width: '30px',
+                    height: `${prob * 100}%`, // Scale height based on probability
+                    backgroundColor: 'blue',
+                    margin: '0 auto',
+                  }}
+                ></div>
+                <span>{index}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   );
 }
