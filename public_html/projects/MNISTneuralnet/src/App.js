@@ -20,6 +20,21 @@ function App() {
   // Clear the canvas on initial load
   useEffect(() => {
     clearCanvas();
+
+    // Prevent touch scrolling on the canvas
+    const canvas = canvasRef.current;
+
+    const preventTouchScroll = (e) => {
+      e.preventDefault();
+    };
+
+    canvas.addEventListener('touchmove', preventTouchScroll, { passive: false });
+    canvas.addEventListener('touchstart', preventTouchScroll, { passive: false });
+
+    return () => {
+      canvas.removeEventListener('touchmove', preventTouchScroll);
+      canvas.removeEventListener('touchstart', preventTouchScroll);
+    };
   }, []);
 
   // Function to send the canvas data to the backend
@@ -95,11 +110,11 @@ function App() {
 
   // Function to handle touch events for mobile users
   const handleTouch = (e) => {
+    e.preventDefault(); // Prevent scrolling or refreshing
+
     const canvas = canvasRef.current;
     const ctx = canvas.getContext('2d');
     const rect = canvas.getBoundingClientRect();
-
-    e.preventDefault(); // Prevent scrolling while drawing
 
     const touch = e.touches[0];
     const x = touch.clientX - rect.left;
