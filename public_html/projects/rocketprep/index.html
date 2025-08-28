@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="">
+    <head>
+        <title>RocketPrepAI | AI Powered SAT Preparation</title>
+        <meta name="author" content="Aidan Busby">
+        <meta name="description" content="Behind the scenes of my AI powered SAT preparation service; our reason for building it, how we did it, and what we hope to accomplish">
+        <link rel="stylesheet" href="../../style.css">
+    </head>
+    <body>
+        <main>
+            <h1>RocketPrepAI: AI Powered Test Prep</h1>
+            <br>
+            <p>Over the past couple of months, I have been developing an AI powered SAT preparation
+                service called <a href="https://rocketprep.ai">RocketPrepAI</a>. It has been an exciting journey for me and the rest of my team,
+                given this is our first shot at the startup scene. Our goal is to provide low-cost, high quality
+                SAT practice and assitance for students who don't have the resources to pay for private tutors.
+                Today, I thought I'd go over how RocketPrepAI works and what makes us unique.
+            </p>
+            <h3>Our Team</h3>
+            <p>
+                <h4>Aidan Busby</h4>
+                <h5>Lead Engineer, Founder</h5>
+                <br>
+                <h4>Leo McClintock</h4>
+                <h5>Head of marketing</h5>
+                <br>
+                <h4>Nathan Vuong</h4>
+                <h5>Head of Finance</h5>
+                <br>
+                <h4>Arthur Johnston</h4>
+                <h5>Swiss Army Knife</h5>
+            </p>
+            <h2>How does RocketPrepAI work?</h2>
+
+            <p>
+                When you begin a practice session on RocketPrepAI, you send a request to our server,
+                which then validates your user credentials before querying the database and returning some
+                questions. We actually have a couple of ways of doing this; for our users on the <i>free</i> or <i>beta</i> tiers,
+                you manually select which skills you want to practice, whereas for our <i>standard</i> tier, we actually 
+                have a special personalized feature that adapts to your strengths and weaknesses!
+
+             
+
+            </p>
+            <h5>Question Generation</h5>
+            <p>Contrary to what you might believe, generating SAT practice questions is not as simple as 
+                opening up a ChatGPT window and asking it to generate you a hard level rhetorical synthesis question.
+                If you want high quality questions that aren't immediately obvious, you have to go deeper. This is because
+                the way Large Language Models like ChatGPT are trained, they don't understand conceptual difficulty.
+                They only understand <i>semantics</i>, because they don't think like humans do.
+                <br>
+                So, how do you get a chatbot to think like a human question writer and not like a fancy autosuggest?
+                <br>
+                Turns out, you first have to come up with a generation formula. Here is what ours looks like:
+                <br>
+                <br>
+                Generate rough draft -> Analyze rough draft and come up with AI generated feedback -> Apply AI generated feedback -> Format question -> Human review
+                <br>
+                <br>
+                The next thing you have to do is give the model a bunch of data. Where do you get that? unfortunately I can't disclose our 
+                exact sources for legal reasons, but if you take around you will find there is a limited but somewhat helpful number of free SAT
+                practice questions out there- it turns out just enough to train an AI model to generate more of them!
+            </p>
+            <h2>What makes RocketPrepAI unique?</h2>
+            <p>A lot of AI startups right now share the paradigm that all you have to do to create a successful company is 
+                vibe code a bug-infested ChatGPT wrapper, hook up stripe, and voila, you are the next Bill Gates.
+                <br>
+                This mentality has created a lot of pushback towards AI, because a lot of people are rightfully
+                fed up with this proliferation of low quality AI services! But that's where we are different
+
+                <br>
+                <br>
+                Unlike some of our competitors, we <i>don't</i> just give you a vibe coded frontend masking a ChatGPT wrapper
+                that uses prompts you could easily write yourself and use for free; No. We have spent <b>months</b> developing, 
+                testing, and improving our prompts, and the thousands of lines of Python code behind our generator- reviewing individual questions,
+                giving the generator more and more data to incrementally improve itself with each question generated. And we aren't even finished yet-
+                Because quality takes time, and that's what we are here to give you.
+
+            </p>
+            
+        </main>
+    </body>
+</html>
