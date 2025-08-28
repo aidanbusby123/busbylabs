@@ -30,7 +30,169 @@
                 lingering issues with the design, we did not have an optimal first flight, and due to events outside of our control our latter flights did not go 
                 well either. We did not qualify for TARC this year- the one qualification flight that we successfully completed had a large score of 45 points- but 
                 we do have a viable active control system that we (by which I really mean I) hope to perfect for next year. I have been entirely in charge of developing
-                the code for this system, while Sammuel Kothe has been in charge of designing the physical system and doing most of the electrical work.
+                the code for this system, while Sam Kothe has been in charge of designing the physical system and doing most of the electrical work.
+            </p>
+            <h3>The 2025 TARC Airbrake</h3>
+            <p>To win the American Rocketry Challenge, you need to get as close to the target altitude and time as possible while safely recovering
+                one or more eggs; it is a game of precision, where every foot and every tenth of a second can mean the difference between
+                first place and fifth place.
+                <br>
+                If you want to win TARC, you need an angle. The reality is that even if you build a really good rocket with
+                the priciest, highest quality motors on the market, you are still going to be no more precise than +- 20 feet and a couple
+                seconds, at best. That is a lot of variability, so much that it makes winning TARC basically 50% skill and 50% chance.
+                <br>
+                The only way to improve these numbers is to develop an active control system. An active control system is a system consisting of a 
+                microcontroller and various sensors that runs an algorithm that determines where the rocket is now, where it is going to be later, 
+                and then uses this information to then modify the trajectory of the rocket and programatically hit the required altitude.
+                <br>
+                <br>
+                Ok, but how do you modify the rocket's trajectory?
+                <br>
+                <br>
+                There are two ways to do this- one is by speeding up, and the other is slowing down. As you may imagine, speeding up is a bit
+                impractical, given you are only allowed one rocket motor. As interesting as an activelly controlled rocket motor would be,
+                I really have no idea how you would accomplish that. So you need to <i>slow the rocket down</i>. How do you do that?
+                <br>
+                <br>
+                Airbrakes.
+                <br>
+                <br>
+                <p>The premise of our entire design is to use a pair of 3D printed flaps that can be extended from the airbrake body using a servo
+                    to increase the amount of aerodynamic drag on the rocket, and slow it down. To get an approximation of how much effect this 
+                    will have on the rocket's trajectory, I used Computational Fluid Dynamics software (Simflow) to get the amount of drag on the rocket
+                    under different flight conditions with the airbrake deployed and undeployed, and then used some numpy and scikit-learn to do some 
+                    regressing and figure out the equation linking airspeed and drag given full airbrake deployment.
+                    <br>
+                    <br>
+
+                    With this equation, all I had to do was create an OpenRocket extension (OpenRocket is the pre-eminent simulation
+                    program for rocketry) that simulated the rocket's flight trajectory with airbrake deployment. This allowed us to get a 
+                    nice estimate for how our rocket would perform, and how we should design it around this performance.
+                </p>
+                <h4>How it works</h4>
+                <p>
+                The software behind our active control system is obviously integral. For the system to work properly, it needs to know 
+                the rocket's position, orientation, and velocity, and then use this to determine the rocket's trajectory, and finally determine
+                whether or not airbrakes should be deployed. Do note that for the 2026 TARC challenge, we will be making a number of improvements upon
+                our software that should increase our accuracy and alleviate a lot of sources of error.
+                </p>
+                <h5>Electronics</h5>
+                <p>The electronics behind our airbrake weren't super complicated, and can be acquired at most electronics stores.
+                    At the heart of everything is the microcontroller, or MCU. We finally settled on a Teensy 4.1 after trying out several
+                    other processors. The teensy is connected to the Inertial Measurement Unit (IMU). We tried out a couple of IMUs,
+                    but the BNO055 and LSM9DS1 were our favorites. We tried out two barometers, the MPL3115A2 and BMP388. We ran into some problems
+                    with the BMP388 because it wouldn't let us use a high enough refresh rate, introducing error to our system.<br>
+                    Finally, to actually deploy the airbrake flaps, we had a KST DS113mg servo.
+                </p>
+                <h5>Avionics</h5>
+                <p>
+                The base layer of our active control system is the avionics. Avionics refers to the different sensors onboard the control system that it uses
+                to determine where the rocket is <i>right now</i>, as well as where it is heading and what its orientation is; position, orientation, and velocity.
+
+                <br>
+                <br>
+                To get this information, we used two sensors; an Inertial Measurement Unit (IMU) and a barometric pressure sensor. 
+                An IMU itself is comprised of three different sensors- an accelerometer, which measure changes in velocity along three axes, a 
+                gyroscope, which measure the rate of rotation of the IMU, and a magnetometer, which uses the earth's magnetic field to
+                determine an absolute rotational position fo the IMU. The barometer measures the atmospheric pressure, which can be used to determine altitude.
+
+                <br>
+                <br>
+                Sensors have a lot of noise, and they don't always provide enough information on their own. For example, the barometer
+                does a great job of providing an accurate altitude over a longer period of time, but it isn't very accurate on a short time scale.
+                This is why you use something called <i>sensor fusion</i>. Sensor fusion works by combining data from two different kinds of sensors
+                and uses them to come up with a super accurate estimate of whatever it is you are measuring.
+                <br>
+                <br>
+                We used sensor fusion first with our IMU. After getting the raw acceleration, rate of rotation, and orientation values along the X, Y, and Z axes,
+                I was luckily able to find some nice C++ sensor fusion libraries that take these three values and calculate the orientation of the 
+                rocket with amazing precision. The gyroscope in the IMU will begin to drift after some time, but the magnetometer is slow to normalize and doesn't perform
+                well under short time scales, so if you combine them you get the best of both worlds.
+                <br>
+                <br>
+                To calcuate altitude, I used a simple complementary filter to combine the reading from the barometer whenever it was updated with 
+                the reading from the accelerometer. Basically, you weigh both the readings from the accelerometer and the barometer, and then combine the weighted
+                readings to come up with an altitude reading. In our case, I weighted the accelerometer heavily (like 90%), with the 10% weighting of the barometer
+                primarily to counteract any drift that might build up in the accelerometer.
+<br>
+<br>
+                altitude = (1-BARO_GAIN) * (altitude + velocity_z * delta_time) + (BARO_GAIN) * baro_altitude
+                <br>
+                <br>
+
+                <h5>Getting orientation</h5>
+                Obviously, the rocket probably isn't going to be flying perfectly straight for entire flight,
+                so we need to determine its exact orientation if everything is going to be accurate enough for the competition.
+                There are two ways to keep track of something's orientation; one is to use euler angles, which is the method that 
+                has been around the longest. Euler angles are problematic, however, because of a phenomenon known as gimbal lock. 
+                Luckily, we can use 4 dimensional hyperspheres called quaternions to keep track of our orientation. No, I'm not kidding,
+                but its not as bad is it sounds, well, mostly. Quaternions have an equation of the form q = q0 + iq1 + jq2 + kq3, where q0, q1, q2, and q3 are real numbers,
+                and i, j, and k are "orthogonal imaginary unit vectors". Thanks to the help of some truly goated mathematicians, 
+                we figured out that it is relatively straightforward to use the <i>axis angle theorem</i> to encode rotations inside of quaternions.
+                And the best part is that you can treat them like matrices. 
+
+                <br>
+                <br>
+                If you want to rotate a point (x, y, z) using a rotation quaternion q,
+                then you convert the point into a quaternion like this
+                <br>
+                <br>
+                p = (p0, p1, p2, p3) = ( 0, x, y, z ) 
+                <br>
+                <br>
+                And then perform the rotation by competing one of the following operations:
+                <br>
+                <br>
+                For active rotation: p' = q^-1*p*q 
+                <br>
+                <br>
+                For passive rotation: p' = qpq^-1
+                <br>
+                <br>
+                Here, p is the point being rotated, p' is the point after the rotation, q is the rotation quaternion, and q^-1 is the inverse of 
+                the rotation quaternion. Active rotation is when the point is rotated with respect to the coordinate system,
+                and passive rotation is when the coordinate system is rotated with repsect to the point.
+                <br>
+                <br>
+                For more information, I highly recommend checking out the following resource: <a href="https://danceswithcode.net/engineeringnotes/quaternions/quaternions.html">danceswithcode.net/engineeringnotes/quaternions</a>
+                <br>
+                <br>
+                Of course, we don't care about rotating points. But if that point represents a vector, like a velocity
+                vector or acceleration vector, then we can use quaternions to rotate our vectors to and fro local and global coordinates.
+                <br>
+                <br>
+                This part is critical. The IMU only gives you the local acceleration vectors, it doesn't automatically give you
+                the global vectors. And in order to calculate the rocket's trajectory (More on that in a minute), you need both the 
+                local and global acceleration and velocity vectors. With a quaternion, we can simply perform an active rotation on the 
+                local vectors form the IMU to get the global vectors of the rocket, and if you do a passive rotation you can then get the 
+                local vectors. This is extremely important for the simulator.
+                </p>
+                <h5>Estimating trajectory</h5>
+                <p>To figure out if the airbrakes need to be deployed, we need to figure out if the rocket is on track to go above the target altitude. 
+                    Because we purposefully designed the rocket to hit an altitude higher than the target altitude 90% of the time, the airbrake
+                    would have its chance to work its magic most of the time. 
+                    <br>
+                    <br>
+                    I should note that our estimation logic may have contained a fairly large flaw that we didn't pick up until
+                    well after the competition. In the code I wrote for the 2025 competition, we used our simulator to estimate what
+                    the apogee of the rocket would be assuming full airbrake deployment during the entire flight, which meant inputting a higher
+                    drag coefficient into the rocket's configuration file. In hindsight, this likely contributed to us overshooting during our
+                    first qualification flight, as the active control system would have underestimated what the apogee would be; of course,
+                    as the rocket got closer and closer to its actual apogee this would normalize, but by the time the system realized it was going 
+                    to reach apogee at too high of an altitude, it may not have had enough velocity left to do anything substantial
+                    and slow down the rocket, leading it to overshoot. Due to the loss of several flightlogs when we had a catastrophic 
+                    crash during one of our qualification flights, I don't have too much data to substantiate this claim, but it is a point of concern.
+                    <br>
+                    <br>
+                    Anyhow, to calculate the trajectory of the rocket, we need to use the current position, orientation, and velocity, then recursively estimate the 
+                    state of the rocket after the relevant forces are applied to it. In our case, these forces are gravity and parasitic drag.
+                    
+                </p>
+            
+            </p>
+            <p>
+                <h4>Potential sources of error</h4>
+                <p>Using drag coefficient with airbrake deployed vs undeployed</p>
             </p>
 
         </div>
