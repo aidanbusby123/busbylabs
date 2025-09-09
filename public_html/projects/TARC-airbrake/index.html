@@ -186,7 +186,77 @@
                     <br>
                     Anyhow, to calculate the trajectory of the rocket, we need to use the current position, orientation, and velocity, then recursively estimate the 
                     state of the rocket after the relevant forces are applied to it. In our case, these forces are gravity and parasitic drag.
-                    
+                    <br>
+                    <br>
+                    Let's start with gravity. Pretty simple- the acceleration due to gravity is equal to -g, or approximately -9.8 m/s^2. We need to subtract 
+                    g from the raw accelerometer reading; To see why this is, imagine the rocket is in free fall- its accelerometer will read zero (ignoring air resistance for a moment)
+                    because there is nothing to actually apply a force on the rocket. Whereas, if the rocket is sitting on a table, it will falsely 
+                    read that it is accelerating because it registers the normal force of the table acting on the rocket (because of gravity).
+                    <br>
+                    <br>
+                    Now, gravity is the only force we have to normalize in our calculations- forces like air resistance will be registered by the accelerometer
+                    and so we don't have to do anything about them in the navigation phase.
+                    <br>
+                    <br>
+                    <h6>Predicting forces</h6>
+                    To simulate the future state of the rocket, however, we need to be able to figure out what the aerodynamic forces will be in the future.
+                    To do this, we use the aerodynamic drag equation:
+                    <br>
+                    F_{D} = 1/2 \rho * C_{D} *  A * v^2
+                    <br>
+                    Where A is the referance area and C_{D} is the coefficient of drag. When the coefficient of drag is multiplied by the referance area,
+                    we can then use \rho, the density of the air, and v, the axial velocity of the rocket, to calculate the force of drag.
+                    <br>
+                    At this point, all that has to be done is to divide F_{D} by the mass of the rocket M to get the acceleration due to drag.
+                    <br>
+                    <br>
+                    It would be nice if there were a nice algebraic way to use this equation to predict the state of the rocket at some point in the future; 
+                    however, this is not the case, because the aerodynamic drag equation contains a velocity term, meaning the acceleration is dependent 
+                    on the velocity, and thus we are dealing with a first order differential equation.
+                    <br>
+                    <br>
+                    In the end, our system of equations looks like this:
+
+                    <br>
+                    <br>
+
+                    vz_local' = vz_local + az_local * delta_t
+                    az_local' = az_local - gz_local * delta_t - 1/2 \rho * C_{D} * A * vz_local^2 * delta_t
+
+                    <br>
+                    <br>
+                    Where gz_local is the force along the local z axis caused by gravity (we use our quaternion to figure out what this is).
+                    <br>
+                    <br>
+                    To solve the above system of equations, we use a technique called a fourth order Runge-Kutta solver (aka RK4). Instead of incrementally
+                    updating the velocity and acceleration (also known as Newton's method), we use a far more robust formula that accounts for the 
+                    fact that using discrete time scales has a tendency to cause the approximation to diverge from the true value of the system, because 
+                    a discrete time scale likes to diverge from the continous time scale that differential equations depend on.
+
+                    <br>
+                    <br>
+                    The equations for RK4 look like this:
+                    <br>
+                    <br>
+                    k1 = f(x, y)
+                    <br>
+                    k2 = f(x + delta_t / 2, y + k1 * delta_t / 2 )
+                    <br>
+                    k3 = f(x + delta_t / 2, y + k2 * delta_t / 2 )
+                    <br>
+                    k4 = f(x + delta_t, y + k3 * delta_t)
+                    <br>
+
+                    y' = y + (k1 + 2k2 + 2k3 + k4) / 6
+
+                    <br>
+                    <br>
+                    Where y' is the updated value of y.
+
+                    <br>
+                    <br>
+                    In our case, y is the simulation state of the rocket, covering the acceleration, velocity, and position.
+
                 </p>
             
             </p>
