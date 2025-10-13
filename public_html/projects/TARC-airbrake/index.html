@@ -57,6 +57,7 @@
                 Airbrakes.
                 <br>
                 <br>
+            </p>
                 <p>The premise of our entire design is to use a pair of 3D printed flaps that can be extended from the airbrake body using a servo
                     to increase the amount of aerodynamic drag on the rocket, and slow it down. To get an approximation of how much effect this 
                     will have on the rocket's trajectory, I used Computational Fluid Dynamics software (Simflow) to get the amount of drag on the rocket
@@ -256,10 +257,52 @@
                     <br>
                     <br>
                     In our case, y is the simulation state of the rocket, covering the acceleration, velocity, and position.
+                    <br>
+                    <br>
+                    In the simulator, we take the current value of the rocket's state and create a copy of it for the simulator.
+                    Then, we run the Runge Kutta simulation a bunch of times until the simulator state reaches apogee, and figure out what that predicted
+                    apogee is. This happens multiple times a second, every time there is a pass through the main program loop.
 
+
+                    <br>
+                    <br>
+                    <h5>Control</h5>
+                    <br>
+                    <br>
+                    <p>
+                        With a dynamic estimate of the current predicted apogee at any given time, the rocket can then adjust the airbrake deployment
+                        depending on how far it is overshooting.
+                        <br>
+                        <br>
+                        Our 2025 algorithm looked like this:
+                        <br>
+                        <pre>
+                            If the rocket is going to overshoot, deploy.
+                            If the rocket is going to undershoot, undeploy.
+                        </pre>
+                        <br>
+                        A remarkably simple system. However, in hindsight, this was probably a really foolish approach, for two reasons:
+                        one, the amount of time the airbrake takes to deploy is not neglible, and this would have contributed to relatively significant error,
+                        and two, relying solely on a binary deployed/undeployed state means that any errors in apogee estimation (of which there most certainly were) could lead the system
+                        to deploy too early or too late, and in either case cause the rocket to undershoot or overshoot; and by the time the system realized its error,
+                        it would be too late.
+                        <br>
+                        <br>
+                        One obvious solution to this problem is to use a PID (Proportional Integral Derivative) controller, which is what we are going to implement
+                        for the 2026 TARC competition.
+                        <br>
+                        <br>
+                        Instead of deploying the airbrakes at a specific time, the PID controller will dynamically adjust the percent deployment of the airbrake, depending
+                        on how far away the estimated apogee is from our target, how quick this difference is changing, and what the value of this difference added up over time is.
+                        This should vastly increase our accuracy.
+                    </p>
                 </p>
             
             </p>
+
+        <h4>
+            Results
+        </h4>
             <p>
                 <h4>Potential sources of error</h4>
                 <p>Using drag coefficient with airbrake deployed vs undeployed</p>
