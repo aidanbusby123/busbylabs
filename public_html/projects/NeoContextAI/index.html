@@ -38,5 +38,13 @@
             the lower the anomaly, which means the more the model understands the input sequence. Here, there is an overwhelming number of training examples with a low anomaly, as seen in the histogram.
         </p>
         <img src="media/earlytests/12-20-1037.png">
+
+        <p>Next, I tested my theory of mimicking persistent firing among lower layers of the neocortical hierarchy to relay higher-level information to a second layer. The anomaly score of the second layer may be seen in red,
+            demonstrating that this technique did successfully teach the second layer of the HTM network to understand textual input as a "moving window" of multiple words at once, with the goal of using this persistence of information
+            to go beyond single-token understanding and build broader, higher-level understandings of what is going on, on a slower temporal timescale. The idea is that by offering higher levels of the HTM network spatial representations of 
+            temporal sequences, these higher levels can consolidate information across time to form symbolic understandings of text, in the same way that humans use their working memory to maintain words and ideas that have been
+            recently processed in order to form understandings. If the human mind were limited to comprehending one idea or one word at a time, it wouldn't be able to form hierarchical understandings of multiple words or ideas 
+            through the indespensible power of <i>context</i>. This idea of multiple-token context is the very concept behind the attention mechanism in transformers.
+        </p>
     </p>
 </body>
