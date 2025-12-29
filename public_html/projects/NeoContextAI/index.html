@@ -10,7 +10,33 @@
 
         <br>
         <br>
+        <p>
         Update 11/15/25: Have successfully implemented the ClassifierRegion, am able to feed tokens to our model. Now, need to map integer values back to tokens for readibility, and greatly expand our 
         dataset, implement a stop token, and begin evolution architecture.
+        </p>
+        <br>
+        <br>
+        Update 12/21/25
+        <br>
+        <br>
+        We have removed the built-in HTM ClassifierRegion and substituted with a custom classifier- this way we can train the classifier and use the same classifier to infer the current predicted cells.
+        <br>
+        <p>
+        The most recent development has been demonstrating, using HTM.core's anomaly detection, that the network is capable of learning the sequences it is fed! The challenge here is ensuring that the low anomaly isn't due to 
+        the HTM circuits predicting<i>all</i> possible next inputs, but that it is truly learning the proper next token when fed a string of text.
+        <br>
+        </p>
+        <p>To train the model, sentences of the following format are used: "X is at Y. Z is at W. Where is X?" to test the ability of HTM to extrapolate symbolic and logical formulas from text training examples. Since X, Y, Z, and W 
+            can be anything, a successful model needs to learn to focus on the "is at" and "Where is" parts of these sentences, while learning that the answer is simply X. Figuring out how to do this has been rather complicated, with some 
+            mixed successes on the way.
+        </p>
+        <br>
+        <br>
+        <img src="media/earlytests/test12-13-25.png">
+        <p>An early test of the ability of a one-layer HTM network to learn text sequences of the above form. Later analysis would suggest that the model's prediction radius grew so wide it was effectively predicting all of the possible 
+            next tokens, so while it technically <i>was</i> learning the sequences, it wasn't learning them in a way to successfully understand the testing examples in a productive manner. The lower the graph goes,
+            the lower the anomaly, which means the more the model understands the input sequence. Here, there is an overwhelming number of training examples with a low anomaly, as seen in the histogram.
+        </p>
+        <img src="media/earlytests/12-20-1037.png">
     </p>
 </body>
