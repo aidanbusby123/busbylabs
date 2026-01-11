@@ -5,6 +5,11 @@
         <meta name="author" content="Aidan Busby">
         <meta name="description" content="Behind the scenes of my AI powered SAT preparation service; our reason for building it, how we did it, and what we hope to accomplish">
         <link rel="stylesheet" href="../../style.css">
+        <link rel="stylesheet" href="../../style.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.27/dist/katex.min.css" integrity="sha384-Pu5+C18nP5dwykLJOhd2U4Xen7rjScHN/qusop27hdd2drI+lL5KvX7YntvT8yew" crossorigin="anonymous">
+        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.27/dist/katex.min.js" integrity="sha384-2B8pfmZZ6JlVoScJm/5hQfNS2TI/6hPqDZInzzPc8oHpN5SgeNOf4LzREO6p5YtZ" crossorigin="anonymous"></script>
+        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.27/dist/contrib/auto-render.min.js" integrity="sha384-hCXGrW6PitJEwbkoStFjeJxv+fSOOQKOPbJxSfM6G5sWZjAyWhXiTIIAmQqnlLlh" crossorigin="anonymous"
+            onload="renderMathInElement(document.body);"></script>
     </head>
     <body>
         <main>
@@ -66,43 +71,77 @@
              
 
             </p>
-            <h5>Question Generation</h5>
-            <p>Contrary to what you might believe, generating SAT practice questions is not as simple as 
-                opening up a ChatGPT window and asking it to generate you a hard level rhetorical synthesis question.
-                If you want high quality questions that aren't immediately obvious, you have to go deeper. This is because
-                the way Large Language Models like ChatGPT are trained, they don't understand conceptual difficulty.
-                They only understand <i>semantics</i>, because they don't think like humans do.
+            <h3>Question Generation</h3>
+            <p>
+                Generating SAT questions and other semantically dense forms of text is a difficult job for current Large Language Models. Despite their apparent understanding
+                of semantics, LLMs have a tendency to mimic an understanding of semantics while being confined to an understanding of lexicology. This is easily apparent when 
+                attempting to generate a mock SAT question without any fine tuning or prompting techniques: The LLM generates a sequence of words that <i>appears</i> to be semantically
+                complex upon initial review due to word choice and the cliche tone of Large Language Models, offering a guise of sophistication and complexity that falls apart upon actually
+                reading the generated passage, and realizing the extremely shallow nature of the question.<br><br>
+                In other words, the LLM generates a passage or question that contains a number of fancy words and appears similar to other SAT questions on a token-by-token scale,
+                yet the text lacks any nuance or complexity and is a dumbfoundingly superficial.<br>
                 <br>
-                So, how do you get a chatbot to think like a human question writer and not like a fancy autosuggest?
                 <br>
-                Turns out, you first have to come up with a generation formula. Here is what ours looks like:
+                Here is an example of a question generated using ChatGPT with minimal prompting techniques:
                 <br>
                 <br>
+                <br>
+                <img src="media/firstq.png">
+                <br>
+                <br>
+                <br>
+                While here is an example of a question relying on proper prompting techniques:
+                <br>
+                <br>
+                <br>
+                <img src="media/secondq.png">
+                <br>
+
+                
+                Specifically, we use LLM-as-a-judge to generate feedback for question drafts. We provide some feedback from other, example questions as well, to ensure the feedback agent
+                has an approximate idea of how to generate the feedback in an appropriate manner.
+
+                <br>
+                <br>
+
                 Generate rough draft -> Analyze rough draft and come up with AI generated feedback -> Apply AI generated feedback -> Format question -> Human review
                 <br>
                 <br>
-                The next thing you have to do is give the model a bunch of data. Where do you get that? unfortunately I can't disclose our 
-                exact sources for intellectual property reasons, but if you take around you will find there is a limited but somewhat helpful number of free SAT
-                practice questions out there- it turns out just enough to train an AI model to generate more of them!
+
             </p>
-            <h2>What makes RocketPrepAI unique?</h2>
-            <p>A lot of AI startups right now share the paradigm that all you have to do to create a successful company is 
-                vibe code a bug-infested ChatGPT wrapper, hook up stripe, and voila, you are the next Bill Gates.
+            <h3>Adaptive Practice</h3>
+            <p>One of the hurdles of effective SAT preparation is determining how to properly divy up one's time across different topics. One way to approach this issue is by
+                implementing Item Response Theory (IRT).
                 <br>
-                This mentality has created a lot of pushback towards AI, because a lot of people are rightfully
-                fed up with this proliferation of low quality AI services! But that's where we are different
+                <br>
+                IRT works by tracking a user's responses and using the relative difficulty of the questions' difficulty combined with whether the user got the question correct or not
+                to converge on an estimate of the user's ability.
+                <br>
+                <br>
+                Given the user's ability, we can optimize their learning process by selecting questions based on how much information that question is likely to impart to the user; by information,
+                we are referring to whether or not the question will help the user <i>grow</i>. A terribly easy question isn't likely to do much to help, while neither is a terribly hard question.
 
                 <br>
                 <br>
-                Unlike some of our competitors, we <i>don't</i> just give you a vibe coded frontend masking a ChatGPT wrapper
-                that uses prompts you could easily write yourself and use for free; No. We have spent months developing, 
-                testing, and improving our prompts, and the thousands of lines of Python code behind our generator- reviewing individual questions,
-                giving the generator more and more data to incrementally improve itself with each question generated. And we aren't finished yet-
-                Because quality takes time, and that's what we are here to give you.
+                IRT model:
                 <br>
-                In addition, we are now <b>free</b>, though for obvious reasons we do have a "standard" (AKA premium) tier for five dollars a month, for our more
-                generous users.
 
+                $$P(\theta) = \frac{\exp(\theta - b)}{1 + \exp(\theta - b)}$$
+
+                <br>
+                \(P(\theta)\) is the probability that the user gets a question of difficulty b correct, given a user ability of \(\theta\)
+
+                <br>
+                <br>
+                In order to actually calculate the user's ability level, we use a specific technique called Expected A Posteriori (EAP). EAP works by using the previous estimated probability distrobution for 
+                a user's ability combined with their response and some bayesian magic to figure out their new expected ability level distrobution after a response.
+                <br>
+                <br>
+                The math looks like this: 
+                <br>
+                <img src="media/eap.gif">
+                <br>
+                Where \(B\) is the random variable describing the user's prior ability distribution, and we are finding the posterior distribution.
             </p>
             
         </main>

@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html>
     <head>
         <title>Active Control Drag System for TARC 2025</title>
@@ -5,6 +6,10 @@
         <meta name="description" content="An actively-controlled airbrake for our rocket in the 2025 American Rocketry Challenge">
         <meta name="google-adsense-account" content="ca-pub-6960503319615167">
         <link rel="stylesheet" href="../../style.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.27/dist/katex.min.css" integrity="sha384-Pu5+C18nP5dwykLJOhd2U4Xen7rjScHN/qusop27hdd2drI+lL5KvX7YntvT8yew" crossorigin="anonymous">
+        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.27/dist/katex.min.js" integrity="sha384-2B8pfmZZ6JlVoScJm/5hQfNS2TI/6hPqDZInzzPc8oHpN5SgeNOf4LzREO6p5YtZ" crossorigin="anonymous"></script>
+        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.27/dist/contrib/auto-render.min.js" integrity="sha384-hCXGrW6PitJEwbkoStFjeJxv+fSOOQKOPbJxSfM6G5sWZjAyWhXiTIIAmQqnlLlh" crossorigin="anonymous"
+            onload="renderMathInElement(document.body);"></script>
     </head>
     <body>
         <main>
@@ -32,7 +37,7 @@
                 we do have a viable active control system that we (by which I really mean I) hope to perfect for next year. I have been entirely in charge of developing
                 the code for this system, while Sam Kothe has been in charge of designing the physical system and doing most of the electrical work.
             </p>
-            <h3>The 2025 TARC Airbrake</h3>
+            <h2>The 2025 TARC Airbrake</h2>
             <p>To win the American Rocketry Challenge, you need to get as close to the target altitude and time as possible while safely recovering
                 one or more eggs; it is a game of precision, where every foot and every tenth of a second can mean the difference between
                 first place and fifth place.
@@ -70,22 +75,25 @@
                     program for rocketry) that simulated the rocket's flight trajectory with airbrake deployment. This allowed us to get a 
                     nice estimate for how our rocket would perform, and how we should design it around this performance.
                 </p>
-                <h4>How it works</h4>
+                <h3>How it works</h3>
                 <p>
                 The software behind our active control system is obviously integral. For the system to work properly, it needs to know 
                 the rocket's position, orientation, and velocity, and then use this to determine the rocket's trajectory, and finally determine
                 whether or not airbrakes should be deployed. Do note that for the 2026 TARC challenge, we will be making a number of improvements upon
                 our software that should increase our accuracy and alleviate a lot of sources of error.
                 </p>
-                <h5>Electronics</h5>
+                <h3>Electronics</h3>
                 <p>The electronics behind our airbrake weren't super complicated, and can be acquired at most electronics stores.
                     At the heart of everything is the microcontroller, or MCU. We finally settled on a Teensy 4.1 after trying out several
                     other processors. The teensy is connected to the Inertial Measurement Unit (IMU). We tried out a couple of IMUs,
                     but the BNO055 and LSM9DS1 were our favorites. We tried out two barometers, the MPL3115A2 and BMP388. We ran into some problems
                     with the BMP388 because it wouldn't let us use a high enough refresh rate, introducing error to our system.<br>
                     Finally, to actually deploy the airbrake flaps, we had a KST DS113mg servo.
+
+                    
                 </p>
-                <h5>Avionics</h5>
+
+                <h3>Avionics</h3>
                 <p>
                 The base layer of our active control system is the avionics. Avionics refers to the different sensors onboard the control system that it uses
                 to determine where the rocket is <i>right now</i>, as well as where it is heading and what its orientation is; position, orientation, and velocity.
@@ -120,8 +128,9 @@
                 altitude = (1-BARO_GAIN) * (altitude + velocity_z * delta_time) + (BARO_GAIN) * baro_altitude
                 <br>
                 <br>
-
-                <h5>Getting orientation</h5>
+                </p>
+                <h4>Getting orientation</h4>
+                <p>
                 Obviously, the rocket probably isn't going to be flying perfectly straight for entire flight,
                 so we need to determine its exact orientation if everything is going to be accurate enough for the competition.
                 There are two ways to keep track of something's orientation; one is to use euler angles, which is the method that 
@@ -130,7 +139,7 @@
                 but its not as bad is it sounds, well, mostly. Quaternions have an equation of the form q = q0 + iq1 + jq2 + kq3, where q0, q1, q2, and q3 are real numbers,
                 and i, j, and k are "orthogonal imaginary unit vectors". Thanks to the help of some truly goated mathematicians, 
                 we figured out that it is relatively straightforward to use the <i>axis angle theorem</i> to encode rotations inside of quaternions.
-                And the best part is that you can treat them like matrices. 
+                And the best part is that you can treat them like matrices.
 
                 <br>
                 <br>
@@ -144,7 +153,7 @@
                 And then perform the rotation by competing one of the following operations:
                 <br>
                 <br>
-                For active rotation: p' = q^-1*p*q 
+                For active rotation: \(p' = q^{-1}*p*q\)
                 <br>
                 <br>
                 For passive rotation: p' = qpq^-1
@@ -168,7 +177,7 @@
                 local vectors form the IMU to get the global vectors of the rocket, and if you do a passive rotation you can then get the 
                 local vectors. This is extremely important for the simulator.
                 </p>
-                <h5>Estimating trajectory</h5>
+                <h4>Estimating trajectory</h4>
                 <p>To figure out if the airbrakes need to be deployed, we need to figure out if the rocket is on track to go above the target altitude. 
                     Because we purposefully designed the rocket to hit an altitude higher than the target altitude 90% of the time, the airbrake
                     would have its chance to work its magic most of the time. 
@@ -199,7 +208,9 @@
                     and so we don't have to do anything about them in the navigation phase.
                     <br>
                     <br>
-                    <h6>Predicting forces</h6>
+                    </p>
+                    <h4>Predicting forces</h4>
+                    <p>
                     To simulate the future state of the rocket, however, we need to be able to figure out what the aerodynamic forces will be in the future.
                     To do this, we use the aerodynamic drag equation:
                     <br>
@@ -239,16 +250,16 @@
                     The equations for RK4 look like this:
                     <br>
                     <br>
-                    k1 = f(x, y)
+                    \(k_1 = f(x, y)\)
                     <br>
-                    k2 = f(x + delta_t / 2, y + k1 * delta_t / 2 )
+                    \(k_2 = f(x + \Delta t / 2, y + k_1 * \Delta t / 2 )\)
                     <br>
-                    k3 = f(x + delta_t / 2, y + k2 * delta_t / 2 )
+                    \(k_3 = f(x + \Delta t / 2, y + k_2 * \Delta t / 2 )\)
                     <br>
-                    k4 = f(x + delta_t, y + k3 * delta_t)
+                    \(k_4 = f(x + \Delta t, y + k_3 * delta_t)\)
                     <br>
 
-                    y' = y + (k1 + 2k2 + 2k3 + k4) / 6
+                    \(y' = y + (k_1 + 2k_2 + 2k_3 + k_4) / 6\)
 
                     <br>
                     <br>
@@ -256,7 +267,7 @@
 
                     <br>
                     <br>
-                    In our case, y is the simulation state of the rocket, covering the acceleration, velocity, and position.
+                    In our case, \(y\) is the simulation state of the rocket, covering the acceleration, velocity, and position.
                     <br>
                     <br>
                     In the simulator, we take the current value of the rocket's state and create a copy of it for the simulator.
@@ -266,7 +277,8 @@
 
                     <br>
                     <br>
-                    <h5>Control</h5>
+                    </p>
+                    <h3>Control</h3>
                     <br>
                     <br>
                     <p>
@@ -280,6 +292,7 @@
                             If the rocket is going to overshoot, deploy.
                             If the rocket is going to undershoot, undeploy.
                         </pre>
+                    <p>
                         <br>
                         A remarkably simple system. However, in hindsight, this was probably a really foolish approach, for two reasons:
                         one, the amount of time the airbrake takes to deploy is not neglible, and this would have contributed to relatively significant error,
@@ -300,11 +313,28 @@
             
             </p>
 
-        <h4>
+        <h2>Build process</h2>
+
+        <h3>Airbrake V0.1</h3>
+        <p>
+            The first iteration of our airbrake was a small contraption of laser-cut balsawood, held together with hot glue and paper clips. Aboard rode an RP
+        </p>
+
+        Airbrake V2
+
+        Airbrake V3
+
+        Include flights
+
+        V4 and V5
+
+        <h2>
             Results
-        </h4>
+        </h2>
+
+        
             <p>
-                <h4>Potential sources of error</h4>
+                <h2>Potential sources of error</h2>
                 <p>Using drag coefficient with airbrake deployed vs undeployed</p>
             </p>
 

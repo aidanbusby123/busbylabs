@@ -33,12 +33,14 @@
         </p>
         <br>
         <br>
-        <img src="media/earlytests/test12-13-25.png">
+        <div class="image" style="width: 150%">
+            <img class="image" src="media/earlytests/test12-13-25.png" style="width:100%">
+        </div>
         <p>An early test of the ability of a one-layer HTM network to learn text sequences of the above form. Later analysis would suggest that the model's prediction radius grew so wide it was effectively predicting all of the possible 
             next tokens, so while it technically <i>was</i> learning the sequences, it wasn't learning them in a way to successfully understand the testing examples in a productive manner. The lower the graph goes,
             the lower the anomaly, which means the more the model understands the input sequence. Here, there is an overwhelming number of training examples with a low anomaly, as seen in the histogram.
         </p>
-        <img src="media/earlytests/12-20-1037.png">
+        <img class="image" src="media/earlytests/12-20-1037.png" style="width:150%">
 
         <p>Next, I tested my theory of mimicking persistent firing among lower layers of the neocortical hierarchy to relay higher-level information to a second layer. The anomaly score of the second layer may be seen in red,
             demonstrating that this technique did successfully teach the second layer of the HTM network to understand textual input as a "moving window" of multiple words at once, with the goal of using this persistence of information
