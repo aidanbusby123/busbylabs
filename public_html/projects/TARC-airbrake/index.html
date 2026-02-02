@@ -316,27 +316,495 @@
         <h2>Build process</h2>
 
         <h3>Airbrake V0.1</h3>
+        <img src="media/v0.1slide.jpg">
+
         <p>
-            The first iteration of our airbrake was a small contraption of laser-cut balsawood, held together with hot glue and paper clips. Aboard rode an RP
+            Our first iteration of the airbrake was a simple contraption of laser-cut balsa wood, an SG90 servo, and an Adafruit Feather M0. It did not last long, although it provided indispensable for early tests of the navigation systems, such as the testing of our quaternion math visible in the bottom left.
+            Airbrake V0.1 suffered two major injuries. We were able to superglue it back together after the first, but after crash #2 we decided it was out of commission.
+        </p>
+        <br>
+        <br>
+        <br>
+
+        <h3>Airbrake V0.2</h3>
+        <img src="media/v0.2slide.jpg">
+        <p>
+            Our next airbrake version was V0.2
+            V0.2 offered an environment to transition to the Teensy 4.1, a far more powerful microcontroller that could handle the calculations behind our work-in-progress simulator with ease.
         </p>
 
-        Airbrake V2
+        <h3>Airbrake V1.1 (The pink airbrake)</h3>
+        <img src="media/v1.1slide.jpg">
+        <br>
+        <br>
 
-        Airbrake V3
+        <p>
+            Airbrake V1.1 was our first honest-to-god airbrake, and lasted nearly 30 flights until its untimely demise on the final launch day.
 
-        Include flights
+        The pink airbrake was slimmer than previous versions, contained a powerful DS113MG servo with 3.5kg/cm of torque that could actuate the airbrake flaps under the high-airspeed conditions of launch.
 
-        V4 and V5
+        For navigation, it used an mpl3115A2 barometer and a LSM9ds1 Inertial Measurement Unit. It was our most accurate and calibrated, and once I corrected a fatal error in our simulation code that had evaded us for weeks, we were able to reach peak performance irrespective of motor errors, achieving multiple perfect flights.
+        </p>
+
+        <h3>Airbrake V1.2 (The red airbrake)</h3>
+        <img src="media/v1.2slide.jpg">
+        <br>
+        <br>
+
+        <p>
+        The red airbrake was the same design as the pink airbrake, except it used a BMP390 barometer. Despite this, poor mounting of the Inertial Measurement Unit, which contains the accelerometer, gyroscope, and magnetometer (which uses earths magnetic fields to find absolute orientation) on top of the servo induced an intolerable amount of electrical interference in our system, leading to both accelerometer drift and extreme barometric inaccuracy, which is included in a later slide.
+
+        The top left photo depicts the calibration script we used to calibrate the airbrakes, and which did poorly to calibrate the red airbrake.
+
+        The bottom left image is from our final flight. No, the rocket should not look like that; the parachute fell out, so we were unable to qualify. The flight was so poor because of electrical interference it wouldn't have mattered anyways. By this time, the pink airbrake was dead.
+        </p>
 
         <h2>
             Results
         </h2>
+        <p>Due to uncaught errors in the simulation code, the airbrake software was only really fully functional for the last three launch days. We had a few perfect flights, 
+            testament to the funacionality of the code, but electrical errors in our red airbrake and the simplicity of our control algorithm, combined with some unfortunate motor luck, 
+            prevented us from reaching nationals.
+        </p>
 
-        
-            <p>
-                <h2>Potential sources of error</h2>
-                <p>Using drag coefficient with airbrake deployed vs undeployed</p>
-            </p>
+        <h3>Difference between Red and Pink airbrakes</h3>
+        <img src="media/redpinkflightpaths.jpg">
+        <p>
+            As you can see in the above graph, the pink airbrake had a relatively smooth prediction of the final apogee, and a relatively effective control loop without massive control
+            input variation. In contrast, the red airbrake (below) suffered from some extreme electrical interference that prevented the software from accurately determining the curent estimated altitude,
+            thus rendering any estimation of the final predicted apogee useless. The oscillations in the barometer are due to the exceedingly dumb decision to place the barometer ON TOP of the airbrake servo.
+        </p>
+
+        <h3>
+            Flight data
+        </h3>
+
+        <table>
+            <tr>
+                <td>flight #</td>
+                <td>motor</td>
+                <td>motor mass (g)</td>
+                <td>total mass (g)</td>
+                <td>apogee (ft)</td>
+                <td>chute diameters (upper stage) (inches)</td>
+                <td>duration (s)</td>
+                <td>Altitude points</td>
+                <td>Time points</td>
+                <td>total points</td>
+                <td>temperature (c)</td>
+                <td>wind speed (m/s)</td>
+                <td>notes</td>
+                <td>date (2025)</td>
+                <td>time (PDT)</td>
+                <td>ARC status</td>
+                <td>Airbrake</td>
+            </tr>
+            <tr>
+                <td>23</td>
+                <td>F41-8</td>
+                <td>57.6</td>
+                <td>545</td>
+                <td>740</td>
+                <td>15+15</td>
+                <td>39</td>
+                <td>50</td>
+                <td>8</td>
+                <td>58</td>
+                <td></td>
+                <td></td>
+                <td>Motor Chuffing (significant)</td>
+                <td>1-Apr</td>
+                <td>17:54</td>
+                <td></td>
+                <td>Pink</td>
+            </tr>
+            <tr>
+                <td>24</td>
+                <td>F41-8</td>
+                <td>57.4</td>
+                <td>548.6</td>
+                <td>757</td>
+                <td>15+15</td>
+                <td>39.3</td>
+                <td>33</td>
+                <td>6.8</td>
+                <td>39.8</td>
+                <td></td>
+                <td></td>
+                <td>Motor Chuffing (significant)</td>
+                <td>1-Apr</td>
+                <td>17:08</td>
+                <td></td>
+                <td>Pink</td>
+            </tr>
+            <tr>
+                <td>25</td>
+                <td>F41-8</td>
+                <td>57.4</td>
+                <td></td>
+                <td>816</td>
+                <td>15+15</td>
+                <td>49</td>
+                <td>26</td>
+                <td>20</td>
+                <td>46</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>1-Apr</td>
+                <td>18:22</td>
+                <td></td>
+                <td>Pink</td>
+            </tr>
+            <tr>
+                <td>26</td>
+                <td>F41-8</td>
+                <td>57.9</td>
+                <td>550</td>
+                <td>798</td>
+                <td>15+15</td>
+                <td>44</td>
+                <td>8</td>
+                <td>0</td>
+                <td>8</td>
+                <td></td>
+                <td></td>
+                <td>lower chute stuck</td>
+                <td>1-Apr</td>
+                <td>18:42</td>
+                <td></td>
+                <td>Pink</td>
+            </tr>
+            <tr>
+                <td>27</td>
+                <td>E35-5</td>
+                <td></td>
+                <td>550.6</td>
+                <td>630</td>
+                <td>15+15</td>
+                <td>36</td>
+                <td>160</td>
+                <td>20</td>
+                <td>180</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>1-Apr</td>
+                <td>18:59</td>
+                <td></td>
+                <td>Pink</td>
+            </tr>
+            <tr>
+                <td>28</td>
+                <td>F41-8</td>
+                <td>57.6</td>
+                <td>548</td>
+                <td>800</td>
+                <td>15+15</td>
+                <td>47</td>
+                <td>10</td>
+                <td>12</td>
+                <td>22</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>1-Apr</td>
+                <td>19:34</td>
+                <td></td>
+                <td>Pink</td>
+            </tr>
+            <tr>
+                <td>29</td>
+                <td>F41-5</td>
+                <td>56.9</td>
+                <td>549.6</td>
+                <td>791</td>
+                <td>15+15</td>
+                <td>45.8</td>
+                <td>1</td>
+                <td>7.2</td>
+                <td>8.2</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>1-Apr</td>
+                <td>19:48</td>
+                <td></td>
+                <td>Pink?</td>
+            </tr>
+            <tr>
+                <td>30</td>
+                <td>E35-5</td>
+                <td>57</td>
+                <td>545.9</td>
+                <td>564</td>
+                <td>15+15</td>
+                <td></td>
+                <td>226</td>
+                <td>164</td>
+                <td>390</td>
+                <td>15</td>
+                <td>2</td>
+                <td></td>
+                <td>4-Apr</td>
+                <td>15:19</td>
+                <td></td>
+                <td>Red</td>
+            </tr>
+            <tr>
+                <td>31</td>
+                <td>F41-8</td>
+                <td>57.3</td>
+                <td>545.2</td>
+                <td>860</td>
+                <td>15+15</td>
+                <td>45.5</td>
+                <td>70</td>
+                <td>6</td>
+                <td>76</td>
+                <td>25</td>
+                <td>1</td>
+                <td></td>
+                <td>4-Apr</td>
+                <td>15:54</td>
+                <td></td>
+                <td>Red</td>
+            </tr>
+            <tr>
+                <td>32</td>
+                <td>F41-8</td>
+                <td>57.8</td>
+                <td></td>
+                <td>730</td>
+                <td>15+15</td>
+                <td>43.5</td>
+                <td>60</td>
+                <td>0</td>
+                <td>60</td>
+                <td>20</td>
+                <td>3</td>
+                <td>lower chute stuck</td>
+                <td>4-Apr</td>
+                <td>18:18</td>
+                <td></td>
+                <td>Red</td>
+            </tr>
+            <tr>
+                <td>33</td>
+                <td>F41-5</td>
+                <td>57</td>
+                <td></td>
+                <td>756</td>
+                <td>15+15</td>
+                <td>44.3</td>
+                <td>34</td>
+                <td>1.2</td>
+                <td>35.2</td>
+                <td>16</td>
+                <td>1</td>
+                <td>lower chute stuck</td>
+                <td>4-Apr</td>
+                <td>19:01</td>
+                <td></td>
+                <td>Red</td>
+            </tr>
+            <tr>
+                <td>34</td>
+                <td>F41-5</td>
+                <td></td>
+                <td></td>
+                <td>745</td>
+                <td>15+15</td>
+                <td>46</td>
+                <td>45</td>
+                <td>8</td>
+                <td>53</td>
+                <td></td>
+                <td>0</td>
+                <td></td>
+                <td>4-Apr</td>
+                <td>19:20</td>
+                <td></td>
+                <td>Red</td>
+            </tr>
+            <tr>
+                <td>35</td>
+                <td>F41-8</td>
+                <td>57.8</td>
+                <td>544.3</td>
+                <td>766</td>
+                <td>15+15</td>
+                <td>40.5</td>
+                <td>24</td>
+                <td>2</td>
+                <td>26</td>
+                <td>23</td>
+                <td>2.3</td>
+                <td></td>
+                <td>5-Apr</td>
+                <td>11:37</td>
+                <td></td>
+                <td>Red</td>
+            </tr>
+            <tr>
+                <td>36</td>
+                <td>F41-5</td>
+                <td>57.1</td>
+                <td>547</td>
+                <td>35</td>
+                <td>15+15</td>
+                <td>4.3</td>
+                <td>755</td>
+                <td>146.8</td>
+                <td>901.8</td>
+                <td>24</td>
+                <td>3</td>
+                <td>motor failure (boost)</td>
+                <td>5-Apr</td>
+                <td>12:11</td>
+                <td></td>
+                <td>Pink</td>
+            </tr>
+            <tr>
+                <td>37</td>
+                <td>F41-5</td>
+                <td>57.1</td>
+                <td></td>
+                <td>781</td>
+                <td>15+15</td>
+                <td>43</td>
+                <td>9</td>
+                <td>0</td>
+                <td>9</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>5-Apr</td>
+                <td>12:28</td>
+                <td></td>
+                <td>Pink</td>
+            </tr>
+            <tr>
+                <td>38</td>
+                <td>F41-5</td>
+                <td>57.3</td>
+                <td>547</td>
+                <td>806</td>
+                <td>15+15-1</td>
+                <td>43</td>
+                <td>16</td>
+                <td>0</td>
+                <td>16</td>
+                <td>29</td>
+                <td>1.2</td>
+                <td>small hole cut in chute</td>
+                <td>5-Apr</td>
+                <td>13:17</td>
+                <td></td>
+                <td>Pink</td>
+            </tr>
+            <tr>
+                <td>39</td>
+                <td>F41-5</td>
+                <td>57.3</td>
+                <td></td>
+                <td>835</td>
+                <td>15+15-1</td>
+                <td>43.84</td>
+                <td>45</td>
+                <td>0</td>
+                <td>45</td>
+                <td>26</td>
+                <td></td>
+                <td></td>
+                <td>5-Apr</td>
+                <td>13:43</td>
+                <td>Q1</td>
+                <td>Pink</td>
+            </tr>
+            <tr>
+                <td>40</td>
+                <td>F39-6</td>
+                <td>57.8</td>
+                <td>549.3</td>
+                <td>698</td>
+                <td>15+15-1</td>
+                <td>33</td>
+                <td>92</td>
+                <td>32</td>
+                <td>124</td>
+                <td></td>
+                <td>1</td>
+                <td></td>
+                <td>5-Apr</td>
+                <td>15:02</td>
+                <td></td>
+                <td>Pink</td>
+            </tr>
+            <tr>
+                <td>41</td>
+                <td>F39-6</td>
+                <td>57.2</td>
+                <td>547.3</td>
+                <td>741</td>
+                <td>15+15-1</td>
+                <td>40</td>
+                <td>49</td>
+                <td>4</td>
+                <td>53</td>
+                <td>28</td>
+                <td>2.5</td>
+                <td></td>
+                <td>5-Apr</td>
+                <td>15:59</td>
+                <td></td>
+                <td>Pink</td>
+            </tr>
+            <tr>
+                <td>42</td>
+                <td>F41-5</td>
+                <td>57.1</td>
+                <td></td>
+                <td>791</td>
+                <td>15+15-1</td>
+                <td>15</td>
+                <td>1</td>
+                <td>104</td>
+                <td>105</td>
+                <td></td>
+                <td></td>
+                <td>motor failure (ejection charge)</td>
+                <td>5-Apr</td>
+                <td>16:52</td>
+                <td>Q2 (replaced)</td>
+                <td>Pink</td>
+            </tr>
+            <tr>
+                <td>43</td>
+                <td>F41-5</td>
+                <td></td>
+                <td></td>
+                <td>743</td>
+                <td>15+15-1</td>
+                <td>21</td>
+                <td>47</td>
+                <td>80</td>
+                <td>127</td>
+                <td></td>
+                <td></td>
+                <td>screweye ripped</td>
+                <td>5-Apr</td>
+                <td>18:30</td>
+                <td>replacement Q2 (DQ)</td>
+                <td>Red</td>
+            </tr>
+        </table>
+        <br>
+        <br>
+        <br>
+        <p> Flights 25, 26, 28, 29, 37, 38, and 42 are the most accurate representations of our software's capability. Flight 39 used the Pink airbrake (without the electrical errors),
+            yet it shot over the target altitude by over 40 meters. We were able to attribute this to the vastly overpowered motor we used that flight.
+        </p>
 
         </div>
         </main>
